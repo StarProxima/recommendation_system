@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
+import 'package:recommendation_system/ui/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,26 +16,38 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: AppColors.background,
         primaryColor: AppColors.primary,
+        secondaryHeaderColor: AppColors.headlineText,
         disabledColor: AppColors.disabled,
         iconTheme: const IconThemeData(
-          color: AppColors.text,
+          color: AppColors.headlineText,
           opacity: 1,
           size: 24,
         ),
         textTheme: Theme.of(context).textTheme.copyWith(
               titleLarge: const TextStyle(
-                color: AppColors.text,
+                color: AppColors.headlineText,
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
+              headlineMedium: const TextStyle(
+                color: AppColors.headlineText,
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+              labelMedium: const TextStyle(
+                color: AppColors.headlineText,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+              labelSmall: const TextStyle(
+                letterSpacing: 0,
+                color: AppColors.disabledtext,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
             ),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Recommendation system'),
-        ),
-        body: const Text('Recommendation system'),
-      ),
+      home: const HomePage(),
     );
   }
 }
