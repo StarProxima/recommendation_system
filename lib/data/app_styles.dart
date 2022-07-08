@@ -9,3 +9,7 @@ abstract class AppColors {
   static const disabled = Color(0XFF817F8F);
   static const background = Color(0xFFF4F4F4);
 }
+
+abstract class AppImages {
+  static const cart = AssetImage('assets/cart.png');
+}

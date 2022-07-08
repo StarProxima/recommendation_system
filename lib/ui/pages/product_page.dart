@@ -34,9 +34,14 @@ class _ProductPageState extends State<ProductPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: width,
               width: width,
-              color: Theme.of(context).disabledColor,
+              height: width,
+              color: Colors.white,
+              padding: const EdgeInsets.all(36),
+              child: const Image(
+                image: AppImages.cart,
+                fit: BoxFit.cover,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -188,7 +193,7 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             const SizedBox(
-              height: 64,
+              height: 16,
             ),
           ],
         ),

@@ -43,11 +43,13 @@ class _ProductCardState extends State<ProductCard> {
             child: TextButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return ProductPage(
-                      product: widget.product,
-                    );
-                  }),
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ProductPage(
+                        product: widget.product,
+                      );
+                    },
+                  ),
                 );
               },
               style: TextButton.styleFrom(
@@ -57,10 +59,13 @@ class _ProductCardState extends State<ProductCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: widget.width,
+                  SizedBox(
                     width: widget.width,
-                    color: Theme.of(context).disabledColor,
+                    height: widget.width,
+                    child: const Image(
+                      image: AppImages.cart,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   const SizedBox(
                     height: 8,
