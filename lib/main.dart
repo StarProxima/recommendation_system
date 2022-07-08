@@ -29,6 +29,11 @@ class MyApp extends StatelessWidget {
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
+              headlineLarge: const TextStyle(
+                color: AppColors.headlineText,
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
+              ),
               headlineMedium: const TextStyle(
                 color: AppColors.headlineText,
                 fontSize: 20,
@@ -39,7 +44,13 @@ class MyApp extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
-              labelSmall: const TextStyle(
+              titleMedium: const TextStyle(
+                letterSpacing: 0,
+                color: AppColors.disabledtext,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+              titleSmall: const TextStyle(
                 letterSpacing: 0,
                 color: AppColors.disabledtext,
                 fontSize: 12,

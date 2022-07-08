@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final double itemWidth = (MediaQuery.of(context).size.width - 3 * 16) / 2;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Главная'),
@@ -40,17 +41,17 @@ class _HomePageState extends State<HomePage> {
               itemCount: 20,
               primary: false,
               shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.633,
+                childAspectRatio: itemWidth / (itemWidth + 104),
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
               ),
               itemBuilder: (context, index) {
                 return ProductCard(
+                  width: itemWidth,
                   product: Product(
-                    name:
-                        'name ${index * index * index * index * index * index * index * index * index}',
+                    name: 'name ${index * index * index}',
                     price: 20.0 * index * index,
                     merchant: 'ООО "ОВОЩЕБАЗА"',
                   ),
@@ -64,33 +65,33 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
-            GridView.builder(
-              padding: const EdgeInsets.only(
-                top: 20,
-                bottom: 40,
-                left: 16,
-                right: 16,
-              ),
-              itemCount: 20,
-              primary: false,
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.633,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-              ),
-              itemBuilder: (context, index) {
-                return ProductCard(
-                  product: Product(
-                    name:
-                        'name ${index * index * index * index * index * index * index * index * index}',
-                    price: 20.0 * index * index,
-                    merchant: 'Девяточка',
-                  ),
-                );
-              },
-            ),
+            // GridView.builder(
+            //   padding: const EdgeInsets.only(
+            //     top: 20,
+            //     bottom: 40,
+            //     left: 16,
+            //     right: 16,
+            //   ),
+            //   itemCount: 20,
+            //   primary: false,
+            //   shrinkWrap: true,
+            //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 2,
+            //     childAspectRatio: 0.633,
+            //     mainAxisSpacing: 16,
+            //     crossAxisSpacing: 16,
+            //   ),
+            //   itemBuilder: (context, index) {
+            //     return ProductCard(
+            //       product: Product(
+            //         name:
+            //             'name ${index * index * index * index * index * index * index * index * index}',
+            //         price: 20.0 * index * index,
+            //         merchant: 'Девяточка',
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),
