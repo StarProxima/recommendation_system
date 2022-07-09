@@ -3,22 +3,21 @@ import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/ui/pages/product_page.dart';
 
-class ProductConnectedCard extends StatefulWidget {
-  const ProductConnectedCard({
+class ProductSmallCard extends StatefulWidget {
+  const ProductSmallCard({
     Key? key,
     required this.product,
     required this.width,
-    this.buyButton = false,
   }) : super(key: key);
 
   final Product product;
   final double width;
-  final bool buyButton;
+
   @override
-  State<ProductConnectedCard> createState() => _ProductConnectedCardState();
+  State<ProductSmallCard> createState() => _ProductSmallCardState();
 }
 
-class _ProductConnectedCardState extends State<ProductConnectedCard> {
+class _ProductSmallCardState extends State<ProductSmallCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -33,7 +32,7 @@ class _ProductConnectedCardState extends State<ProductConnectedCard> {
             color: AppColors.divider,
             width: 1,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(24)),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
           boxShadow: const [
             BoxShadow(
               color: AppColors.shadow,
@@ -43,7 +42,7 @@ class _ProductConnectedCardState extends State<ProductConnectedCard> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(16),
           child: Card(
             margin: EdgeInsets.zero,
             elevation: 0,
@@ -79,8 +78,8 @@ class _ProductConnectedCardState extends State<ProductConnectedCard> {
                     height: 8,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    height: 30,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    height: 32,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -94,7 +93,7 @@ class _ProductConnectedCardState extends State<ProductConnectedCard> {
                   ),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     height: 16,
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -107,21 +106,11 @@ class _ProductConnectedCardState extends State<ProductConnectedCard> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  widget.buyButton
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: BottomProductBuyButton(),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            widget.product.merchant,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ),
+                  const SizedBox(height: 6),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: BottomProductBuyButton(),
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
@@ -148,10 +137,10 @@ class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
   Widget build(BuildContext context) {
     return amount == 0
         ? Container(
-            height: 28,
+            height: 32,
             decoration: BoxDecoration(
               color: AppColors.headlineText,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: TextButton(
               onPressed: () {
@@ -175,8 +164,8 @@ class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  height: 28,
-                  width: 28,
+                  height: 32,
+                  width: 32,
                   child: FloatingActionButton(
                     elevation: 0,
                     onPressed: () {
@@ -201,8 +190,8 @@ class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
                   ),
                 ),
                 SizedBox(
-                  height: 28,
-                  width: 28,
+                  height: 32,
+                  width: 32,
                   child: FloatingActionButton(
                     elevation: 0,
                     onPressed: () {
