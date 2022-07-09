@@ -1,16 +1,7 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/data/recomendation_repository.dart';
-import 'package:recommendation_system/ui/widgets/product_card.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:recommendation_system/ui/widgets/product_connected_card.dart';
 
@@ -58,13 +49,13 @@ class _ProductPageState extends State<ProductPage> {
             children: [
               Container(
                 width: width,
-                height: width / 1.25,
+                height: width / 1.75,
                 color: Colors.transparent,
-                padding: const EdgeInsets.all(36),
+                padding: const EdgeInsets.all(0),
                 child: const Image(
                   color: AppColors.disabled,
                   image: AppImages.cart,
-                  fit: BoxFit.fitHeight,
+                  fit: BoxFit.contain,
                 ),
               ),
               Padding(
