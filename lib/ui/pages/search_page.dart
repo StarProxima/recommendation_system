@@ -1,21 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:recommendation_system/data/recomendation_repository.dart';
-import 'package:recommendation_system/ui/pages/search_page.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'package:auto_animated/auto_animated.dart';
 
 import '../../data/product_model.dart';
 import '../widgets/search_panel.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key, required this.controller}) : super(key: key);
 
+  final TextEditingController controller;
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SearchPageState extends State<SearchPage> {
   final LiveOptions options = const LiveOptions(
     delay: Duration(milliseconds: 0),
     showItemInterval: Duration(milliseconds: 35),
@@ -24,20 +26,38 @@ class _HomePageState extends State<HomePage> {
     reAnimateOnVisibility: false,
   );
 
-  List<Product> recomendedProducts = [];
+  List<Product> searchedProducts = [];
 
-  final TextEditingController controller = TextEditingController();
+  String? lastQuery;
+
+  bool isLoad = false;
+
+  FocusNode searchPanelFocus = FocusNode();
+
+  void getSearchProducts() async {
+    searchPanelFocus.unfocus();
+    if (widget.controller.text != lastQuery) {
+      if (lastQuery != null) FocusScope.of(context).unfocus();
+
+      searchedProducts =
+          await RecommendationRepository.getProducts(widget.controller.text) ??
+              [];
+
+      lastQuery = widget.controller.text;
+      if (mounted) setState(() {});
+    }
+  }
 
   void getRec() async {
-    recomendedProducts =
+    searchedProducts =
         await RecommendationRepository.getRecommendations() ?? [];
     if (mounted) setState(() {});
   }
 
   @override
   void initState() {
-    getRec();
     super.initState();
+    getSearchProducts();
   }
 
   @override
@@ -54,26 +74,19 @@ class _HomePageState extends State<HomePage> {
               right: 12,
             ),
             child: SearchPanel(
-              focus: FocusNode(),
-              controller: controller,
+              focus: searchPanelFocus,
+              controller: widget.controller,
+              backButton: true,
               onEditingComplete: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SearchPage(
-                        controller: controller,
-                      );
-                    },
-                  ),
-                );
-
-                setState(() {});
+                log('onEditingComplete');
+                getSearchProducts();
               },
             ),
           ),
         ),
       ),
       body: SingleChildScrollView(
+        key: ValueKey(lastQuery),
         physics: const BouncingScrollPhysics(
           parent: AlwaysScrollableScrollPhysics(),
         ),
@@ -83,7 +96,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: Text(
-                "Рекомендуем",
+                "Вот, что удалось найти по запросу '$lastQuery'",
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
@@ -95,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                 left: 16,
                 right: 16,
               ),
-              itemCount: recomendedProducts.length,
+              itemCount: searchedProducts.length,
               primary: false,
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -118,21 +131,14 @@ class _HomePageState extends State<HomePage> {
                     child: ProductCard(
                       width: itemWidth,
                       product: Product(
-                        name: recomendedProducts[index].name,
-                        price: recomendedProducts[index].price,
-                        merchant: recomendedProducts[index].merchant,
+                        name: searchedProducts[index].name,
+                        price: searchedProducts[index].price,
+                        merchant: searchedProducts[index].merchant,
                       ),
                     ),
                   ),
                 );
               },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "Специально для вас",
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
             ),
           ],
         ),

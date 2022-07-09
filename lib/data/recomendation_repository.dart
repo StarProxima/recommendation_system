@@ -78,6 +78,7 @@ abstract class RecommendationRepository {
       queryParameters: {"search": query},
     );
     var response = await http.get(url);
+    log(response.body);
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as List<dynamic>;
       return jsonResponse.map((e) => Product.fromJson(e)).toList();
