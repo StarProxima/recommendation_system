@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
@@ -38,7 +39,12 @@ class _HomePageState extends State<HomePage> {
   late List<Product> recomendedProducts = [];
 
   void loadRecomendation() async {
-    var url = Uri(scheme: "http", host: "127.0.0.1", path: "/recomend", port: 5000);
+    var url = Uri(
+      scheme: "http",
+      host: Platform.isAndroid ? '10.0.2.2' : '127.0.0.1',
+      path: "/recomend",
+      port: 5000,
+    );
     print(url.normalizePath());
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -95,7 +101,7 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: itemWidth / (itemWidth + 118),
+                childAspectRatio: itemWidth / (itemWidth + 119),
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
               ),
