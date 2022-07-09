@@ -8,18 +8,15 @@ class ProductCard extends StatefulWidget {
     Key? key,
     required this.product,
     required this.width,
-    this.buyButton = false,
   }) : super(key: key);
 
   final Product product;
   final double width;
-  final bool buyButton;
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
-  double get padd => widget.width < 140 ? 8 : 12;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -71,6 +68,7 @@ class _ProductCardState extends State<ProductCard> {
                     width: widget.width,
                     height: widget.width,
                     child: const Image(
+                      color: AppColors.disabled,
                       image: AppImages.cart,
                       fit: BoxFit.cover,
                     ),
@@ -79,8 +77,7 @@ class _ProductCardState extends State<ProductCard> {
                     height: 8,
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: padd, right: padd, bottom: 12),
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -100,48 +97,51 @@ class _ProductCardState extends State<ProductCard> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Container(
+                        SizedBox(
                           height: 24,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: padd, vertical: 3),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).secondaryHeaderColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "${widget.product.price.toInt()} ₽",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                  color: Colors.white,
+                          child: Row(
+                            children: [
+                              Text(
+                                "${widget.product.price.toInt()}₽",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(color: AppColors.headlineText, fontWeight: FontWeight.bold, fontSize: 16),
+                                textAlign: TextAlign.left,
+                              ),
+                              const Spacer(),
+                              Container(
+                                padding: const EdgeInsets.only(left: 12, right: 12),
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.cashback,
+                                  borderRadius: BorderRadius.all(Radius.circular(12)),
                                 ),
-                            textAlign: TextAlign.center,
+                                height: 24,
+                                child: Text(
+                                  "${(widget.product.price * 0.2).toInt()}₽",
+                                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-
-                        // const SizedBox(
-                        //   height: 8,
-                        // ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          widget.product.merchant,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                                fontSize: 14,
+                              ),
+                        ),
                       ],
                     ),
-                  ),
-                  widget.buyButton
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(horizontal: padd),
-                          child: const BottomProductBuyButton(),
-                        )
-                      : Padding(
-                          padding: EdgeInsets.symmetric(horizontal: padd),
-                          child: Text(
-                            widget.product.merchant,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ),
-                  const SizedBox(
-                    height: 8,
                   ),
                 ],
               ),
@@ -150,86 +150,5 @@ class _ProductCardState extends State<ProductCard> {
         ),
       ),
     );
-  }
-}
-
-class BottomProductBuyButton extends StatefulWidget {
-  const BottomProductBuyButton({Key? key}) : super(key: key);
-
-  @override
-  State<BottomProductBuyButton> createState() => _BottomProductBuyButtonState();
-}
-
-class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
-  int amount = 0;
-  @override
-  Widget build(BuildContext context) {
-    return amount == 0
-        ? Container(
-            height: 32,
-            decoration: BoxDecoration(
-              color: AppColors.headlineText,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  amount = 1;
-                });
-              },
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                primary: Colors.white,
-              ),
-              child: const Center(
-                child: Text(
-                  'Купить',
-                ),
-              ),
-            ),
-          )
-        : Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: 32,
-                  width: 32,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        amount--;
-                      });
-                    },
-                    backgroundColor: AppColors.headlineText,
-                    heroTag: null,
-                    child: const Icon(Icons.remove),
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    '$amount шт',
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          fontSize: 14,
-                        ),
-                  ),
-                ),
-                SizedBox(
-                  height: 32,
-                  width: 32,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        amount++;
-                      });
-                    },
-                    backgroundColor: AppColors.headlineText,
-                    heroTag: null,
-                    child: const Icon(Icons.add),
-                  ),
-                ),
-              ],
-            ),
-          );
   }
 }

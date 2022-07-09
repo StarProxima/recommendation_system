@@ -82,8 +82,15 @@ class MyApp extends StatelessWidget {
               ),
               titleSmall: const TextStyle(
                 letterSpacing: 0,
+                color: AppColors.headlineText,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Inter',
+              ),
+              labelSmall: const TextStyle(
+                letterSpacing: 0,
                 color: AppColors.disabledtext,
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Inter',
               ),

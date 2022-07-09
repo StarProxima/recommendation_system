@@ -31,8 +31,7 @@ class _HomePageState extends State<HomePage> {
   List<Product> recomendedProducts = [];
 
   void getRec() async {
-    recomendedProducts =
-        await RecommendationRepository.getRecommendations() ?? [];
+    recomendedProducts = await RecommendationRepository.getRecommendations() ?? [];
     if (mounted) setState(() {});
   }
 
@@ -58,8 +57,7 @@ class _HomePageState extends State<HomePage> {
             child: SearchPanel(
               onEditingComplete: (query) async {
                 if (query != '') {
-                  recomendedProducts =
-                      await RecommendationRepository.getProducts(query) ?? [];
+                  recomendedProducts = await RecommendationRepository.getProducts(query) ?? [];
                 } else {
                   getRec();
                 }

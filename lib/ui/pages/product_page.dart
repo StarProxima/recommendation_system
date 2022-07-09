@@ -12,6 +12,9 @@ import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:recommendation_system/ui/widgets/product_connected_card.dart';
+
+import '../widgets/product_simply_card.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);
@@ -28,11 +31,8 @@ class _ProductPageState extends State<ProductPage> {
   List<Product> connectedProducts = [];
 
   void getRecs() async {
-    similarProducts =
-        await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
-    connectedProducts =
-        await RecommendationRepository.getConnectedProducts(widget.product) ??
-            [];
+    similarProducts = await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
+    connectedProducts = await RecommendationRepository.getConnectedProducts(widget.product) ?? [];
     if (mounted) setState(() {});
   }
 
@@ -47,16 +47,8 @@ class _ProductPageState extends State<ProductPage> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: AppColors.background,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.favorite_border_outlined,
-              color: Colors.red,
-            ),
-          )
-        ],
       ),
       body: ScrollConfiguration(
         behavior: MyBehavior(),
@@ -66,12 +58,13 @@ class _ProductPageState extends State<ProductPage> {
             children: [
               Container(
                 width: width,
-                height: width,
-                color: Colors.white,
+                height: width / 1.25,
+                color: Colors.transparent,
                 padding: const EdgeInsets.all(36),
                 child: const Image(
+                  color: AppColors.disabled,
                   image: AppImages.cart,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fitHeight,
                 ),
               ),
               Padding(
@@ -106,7 +99,7 @@ class _ProductPageState extends State<ProductPage> {
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(25),
                       color: amount == 0 ? AppColors.headlineText : null,
                     ),
                     height: 50,
@@ -143,9 +136,7 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Text(
                                     "${widget.product.price.toInt() * amount}₽",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                   Text(
                                     '${widget.product.price.toInt()}₽ x $amount шт',
@@ -155,6 +146,7 @@ class _ProductPageState extends State<ProductPage> {
                               Row(
                                 children: [
                                   FloatingActionButton(
+                                    elevation: 0,
                                     onPressed: () {
                                       setState(() {
                                         amount--;
@@ -169,16 +161,14 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Center(
                                       child: Text(
                                         '$amount шт',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall!
-                                            .copyWith(
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                               fontSize: 16,
                                             ),
                                       ),
                                     ),
                                   ),
                                   FloatingActionButton(
+                                    elevation: 0,
                                     onPressed: () {
                                       setState(() {
                                         amount++;
@@ -211,7 +201,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 296,
+                          height: 233 + 34,
                           child: AnimationLimiter(
                             child: ListView.separated(
                               physics: const BouncingScrollPhysics(),
@@ -226,19 +216,18 @@ class _ProductPageState extends State<ProductPage> {
                                   child: SlideAnimation(
                                     verticalOffset: 50,
                                     child: FadeInAnimation(
-                                      child: ProductCard(
+                                      child: ProductConnectedCard(
                                         product: connectedProducts[index],
-                                        width: 130,
+                                        width: 132,
                                         buyButton: true,
                                       ),
                                     ),
                                   ),
                                 );
                               },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
+                              separatorBuilder: (BuildContext context, int index) {
                                 return const SizedBox(
-                                  width: 16,
+                                  width: 8,
                                 );
                               },
                             ),
@@ -258,7 +247,7 @@ class _ProductPageState extends State<ProductPage> {
               AnimationLimiter(
                 key: ValueKey(similarProducts.length),
                 child: SizedBox(
-                  height: 296,
+                  height: 132 + 74 + 32,
                   child: ListView.separated(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(16),
@@ -272,10 +261,9 @@ class _ProductPageState extends State<ProductPage> {
                         child: SlideAnimation(
                           verticalOffset: 50,
                           child: FadeInAnimation(
-                            child: ProductCard(
+                            child: ProductSimplyCard(
                               product: similarProducts[index],
-                              buyButton: true,
-                              width: 130,
+                              width: 132,
                             ),
                           ),
                         ),
@@ -283,7 +271,7 @@ class _ProductPageState extends State<ProductPage> {
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(
-                        width: 16,
+                        width: 8,
                       );
                     },
                   ),
