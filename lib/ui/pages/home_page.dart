@@ -29,8 +29,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController controller = TextEditingController();
 
   void getRec() async {
-    recomendedProducts =
-        await RecommendationRepository.getRecommendations() ?? [];
+    recomendedProducts = await RecommendationRepository.getRecommendations() ?? [];
     if (mounted) setState(() {});
   }
 
