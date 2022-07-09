@@ -39,6 +39,7 @@ class _SearchPanelState extends State<SearchPanel> {
         controller: widget.controller,
         onEditingComplete: () {
           widget.focus.unfocus();
+          FocusScope.of(context).requestFocus(widget.focus);
           widget.onEditingComplete();
         },
         textInputAction: TextInputAction.done,

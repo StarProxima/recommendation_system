@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recommendation_system/data/recomendation_repository.dart';
+import 'package:recommendation_system/data/recommendation_repository.dart';
 import 'package:recommendation_system/ui/pages/search_page.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'package:auto_animated/auto_animated.dart';
@@ -29,7 +29,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController controller = TextEditingController();
 
   void getRec() async {
-    recomendedProducts = await RecommendationRepository.getRecommendations() ?? [];
+    recomendedProducts =
+        await RecommendationRepository.getRecommendations() ?? [];
     if (mounted) setState(() {});
   }
 

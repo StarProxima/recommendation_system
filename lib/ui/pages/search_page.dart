@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import 'package:recommendation_system/data/recomendation_repository.dart';
+import 'package:recommendation_system/data/recommendation_repository.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'package:auto_animated/auto_animated.dart';
 
@@ -96,8 +96,12 @@ class _SearchPageState extends State<SearchPage> {
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: Text(
-                "Вот, что удалось найти по запросу '$lastQuery'",
-                style: Theme.of(context).textTheme.headlineLarge,
+                lastQuery == null
+                    ? ''
+                    : lastQuery!.isNotEmpty
+                        ? "Вот, что удалось найти по запросу '$lastQuery':"
+                        : "Пожалуйста, введите запрос для поиска",
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
             LiveGrid.options(
