@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -21,6 +22,7 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   int amount = 0;
 
+  bool togetherPurchases = false;
   late List<Product> similarProducts = [];
 
   @override
@@ -34,13 +36,14 @@ class _ProductPageState extends State<ProductPage> {
     var url = Uri(
         scheme: "http",
         host: Platform.isAndroid ? '10.0.2.2' : '127.0.0.1',
-        path: "/similar",
+        path: "/similar_items",
         port: 5000,
         queryParameters: {
           "product":
               "${widget.product.name};${widget.product.price.toInt().toString()};${widget.product.merchant}"
         });
     var response = await http.get(url);
+
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
@@ -60,6 +63,7 @@ class _ProductPageState extends State<ProductPage> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.background,
         actions: [
           IconButton(
             onPressed: () {},
@@ -128,6 +132,7 @@ class _ProductPageState extends State<ProductPage> {
                             onPressed: () {
                               setState(() {
                                 amount = 1;
+                                togetherPurchases = true;
                               });
                             },
                             style: TextButton.styleFrom(
@@ -209,7 +214,7 @@ class _ProductPageState extends State<ProductPage> {
               const SizedBox(
                 height: 24,
               ),
-              amount != 0
+              togetherPurchases
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -267,7 +272,7 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               ),
               AnimationLimiter(
-                key: UniqueKey(),
+                key: ValueKey(similarProducts.length),
                 child: SizedBox(
                   height: 296,
                   child: ListView.separated(

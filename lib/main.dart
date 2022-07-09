@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/ui/pages/home_page.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: AppColors.background,
+    ),
+  );
   runApp(const MyApp());
 }
 
