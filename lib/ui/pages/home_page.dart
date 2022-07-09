@@ -12,22 +12,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final LiveOptions options = const LiveOptions(
-    // Start animation after (default zero)
     delay: Duration(milliseconds: 0),
-
-    // Show each item through (default 250)
     showItemInterval: Duration(milliseconds: 35),
-
-    // Animation duration (default 250)
     showItemDuration: Duration(milliseconds: 200),
-
-    // Animations starts at 0.05 visible
-    // item fraction in sight (default 0.025)
     visibleFraction: 0.025,
-
-    // Repeat the animation of the appearance
-    // when scrolling in the opposite direction (default false)
-    // To get the effect as in a showcase for ListView, set true
     reAnimateOnVisibility: false,
   );
 

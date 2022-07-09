@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);
@@ -15,6 +16,7 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   int amount = 0;
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -167,6 +169,54 @@ class _ProductPageState extends State<ProductPage> {
             const SizedBox(
               height: 24,
             ),
+            amount != 0
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Покупают вместе: ',
+                          style: Theme.of(context).textTheme.headlineMedium,
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 270,
+                        child: AnimationLimiter(
+                          child: ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            padding: const EdgeInsets.all(16),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 20,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return AnimationConfiguration.staggeredList(
+                                position: index,
+                                duration: const Duration(milliseconds: 500),
+                                child: SlideAnimation(
+                                  verticalOffset: 50,
+                                  child: FadeInAnimation(
+                                    child: ProductCard(
+                                      product: widget.product,
+                                      width: 130,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: 16,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
@@ -175,57 +225,36 @@ class _ProductPageState extends State<ProductPage> {
                 textAlign: TextAlign.left,
               ),
             ),
-            SizedBox(
-              height: 270,
-              child: ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                scrollDirection: Axis.horizontal,
-                itemCount: 20,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ProductCard(
-                    product: widget.product,
-                    width: 130,
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    width: 16,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Покупают вместе: ',
-                style: Theme.of(context).textTheme.headlineMedium,
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              height: 270,
-              child: ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                scrollDirection: Axis.horizontal,
-                itemCount: 20,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ProductCard(
-                    product: widget.product,
-                    width: 130,
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    width: 16,
-                  );
-                },
+            AnimationLimiter(
+              child: SizedBox(
+                height: 270,
+                child: ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(16),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 20,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(milliseconds: 500),
+                      child: SlideAnimation(
+                        verticalOffset: 50,
+                        child: FadeInAnimation(
+                          child: ProductCard(
+                            product: widget.product,
+                            width: 130,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      width: 16,
+                    );
+                  },
+                ),
               ),
             ),
             const SizedBox(
