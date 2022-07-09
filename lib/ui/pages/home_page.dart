@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
+import 'package:recommendation_system/data/recomendation_repository.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:http/http.dart' as http;
@@ -26,35 +28,18 @@ class _HomePageState extends State<HomePage> {
     reAnimateOnVisibility: false,
   );
 
-  late List<Product> recomendedProducts = [];
+  List<Product> recomendedProducts = [];
 
-  void loadRecomendation() async {
-    var url = Uri(
-      scheme: "http",
-      host: Platform.isAndroid ? '10.0.2.2' : '127.0.0.1',
-      path: "/recomend",
-      port: 5000,
-    );
-    print(url.normalizePath());
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-      //var itemCount = jsonResponse['totalItems'];
-      setState(() {
-        recomendedProducts.clear();
-        for (var product in jsonResponse) {
-          recomendedProducts.add(Product.fromJson(product));
-        }
-      });
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
+  void getRec() async {
+    recomendedProducts =
+        await RecommendationRepository.getRecommendations() ?? [];
+    if (mounted) setState(() {});
   }
 
   @override
   void initState() {
+    getRec();
     super.initState();
-    loadRecomendation();
   }
 
   @override

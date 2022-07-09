@@ -7,6 +7,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
+import 'package:recommendation_system/data/recomendation_repository.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -23,64 +24,22 @@ class _ProductPageState extends State<ProductPage> {
   int amount = 0;
 
   bool togetherPurchases = false;
-  late List<Product> similarProducts = [];
-  late List<Product> connectedProducts = [];
+  List<Product> similarProducts = [];
+  List<Product> connectedProducts = [];
+
+  void getRecs() async {
+    similarProducts =
+        await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
+    connectedProducts =
+        await RecommendationRepository.getConnectedProducts(widget.product) ??
+            [];
+    if (mounted) setState(() {});
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
+    getRecs();
     super.initState();
-    loadSimilarProducts();
-    loadConnectedProducts();
-  }
-
-  Future<void> loadSimilarProducts() async {
-    var url = Uri(
-        scheme: "http",
-        host: Platform.isAndroid ? '10.0.2.2' : '127.0.0.1',
-        path: "/similar_items",
-        port: 5000,
-        queryParameters: {
-          "product": "${widget.product.name};${widget.product.price.toInt().toString()};${widget.product.merchant}"
-        });
-    var response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-
-      setState(() {
-        similarProducts.clear();
-        for (var product in jsonResponse) {
-          similarProducts.add(Product.fromJson(product));
-        }
-      });
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
-  }
-
-  Future<void> loadConnectedProducts() async {
-    var url = Uri(
-        scheme: "http",
-        host: Platform.isAndroid ? '10.0.2.2' : '127.0.0.1',
-        path: "/connected",
-        port: 5000,
-        queryParameters: {
-          "product": "${widget.product.name};${widget.product.price.toInt().toString()};${widget.product.merchant}"
-        });
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-
-      setState(() {
-        connectedProducts.clear();
-        for (var product in jsonResponse) {
-          connectedProducts.add(Product.fromJson(product));
-        }
-      });
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
   }
 
   @override
@@ -184,7 +143,9 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Text(
                                     "${widget.product.price.toInt() * amount}₽",
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   ),
                                   Text(
                                     '${widget.product.price.toInt()}₽ x $amount шт',
@@ -208,7 +169,10 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Center(
                                       child: Text(
                                         '$amount шт',
-                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(
                                               fontSize: 16,
                                             ),
                                       ),
@@ -271,7 +235,8 @@ class _ProductPageState extends State<ProductPage> {
                                   ),
                                 );
                               },
-                              separatorBuilder: (BuildContext context, int index) {
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
                                 return const SizedBox(
                                   width: 16,
                                 );

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 
 class SearchPanel extends StatefulWidget {
@@ -20,9 +18,6 @@ class _SearchPanelState extends State<SearchPanel> {
         maxLines: 1,
         style: const TextStyle(fontSize: 17),
         textAlignVertical: TextAlignVertical.center,
-        //controller: nameController,
-        // onEditingComplete: () =>
-        //     widget.onEditiningComplite(nameController.text),
         focusNode: focus,
         textAlign: TextAlign.left,
         decoration: InputDecoration(
