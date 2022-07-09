@@ -75,13 +75,11 @@ class _HomePageState extends State<HomePage> {
                     begin: 0,
                     end: 1,
                   ).animate(animation),
-                  // And slide transition
                   child: SlideTransition(
                     position: Tween<Offset>(
                       begin: const Offset(0, -0.1),
                       end: Offset.zero,
                     ).animate(animation),
-                    // Paste you Widget
                     child: ProductCard(
                       width: itemWidth,
                       product: Product(

@@ -14,6 +14,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  int amount = 0;
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -57,44 +58,12 @@ class _ProductPageState extends State<ProductPage> {
                     textAlign: TextAlign.left,
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 12,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Магазин',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        widget.product.merchant,
-                        style: const TextStyle(
-                          color: AppColors.headlineText,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Цена',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        '${widget.product.price} ₽',
-                        style: const TextStyle(
-                          color: AppColors.headlineText,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    widget.product.merchant,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    textAlign: TextAlign.left,
                   ),
                 ],
               ),
@@ -102,29 +71,96 @@ class _ProductPageState extends State<ProductPage> {
             const SizedBox(
               height: 24,
             ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.headlineText,
-                ),
-                height: 50,
-                width: width - 40,
-                child: TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    primary: Colors.white,
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: amount == 0 ? AppColors.headlineText : null,
                   ),
-                  child: const Center(
-                    child: Text(
-                      'Купить',
-                    ),
-                  ),
+                  height: 50,
+                  width: double.infinity,
+                  child: amount == 0
+                      ? TextButton(
+                          onPressed: () {
+                            setState(() {
+                              amount = 1;
+                            });
+                          },
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            primary: Colors.white,
+                            textStyle: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${widget.product.price.toInt()}₽   •   Купить',
+                            ),
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "${widget.product.price.toInt() * amount}₽",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+                                ),
+                                Text(
+                                  '${widget.product.price.toInt()}₽ x $amount шт',
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                FloatingActionButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      amount--;
+                                    });
+                                  },
+                                  backgroundColor: AppColors.headlineText,
+                                  heroTag: null,
+                                  child: const Icon(Icons.remove),
+                                ),
+                                SizedBox(
+                                  width: 70,
+                                  child: Center(
+                                    child: Text(
+                                      '$amount шт',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall!
+                                          .copyWith(
+                                            fontSize: 16,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                                FloatingActionButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      amount++;
+                                    });
+                                  },
+                                  backgroundColor: AppColors.headlineText,
+                                  heroTag: null,
+                                  child: const Icon(Icons.add),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                 ),
               ),
             ),
