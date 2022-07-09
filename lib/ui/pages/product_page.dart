@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
+import 'package:http/http.dart' as http;
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);
@@ -15,6 +18,35 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   int amount = 0;
+
+  late List<Product> similarProducts = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadSimilarProducts();
+  }
+
+  Future<void> loadSimilarProducts() async {
+    var url = Uri(scheme: "http", host: "127.0.0.1", path: "/similar", port: 5000, queryParameters: {
+      "product": "${widget.product.name};${widget.product.price.toInt().toString()};${widget.product.merchant}"
+    });
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+
+      setState(() {
+        similarProducts.clear();
+        for (var product in jsonResponse) {
+          similarProducts.add(Product.fromJson(product));
+        }
+      });
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -76,10 +108,10 @@ class _ProductPageState extends State<ProductPage> {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(24),
                     color: amount == 0 ? AppColors.headlineText : null,
                   ),
-                  height: 50,
+                  height: 48,
                   width: double.infinity,
                   child: amount == 0
                       ? TextButton(
@@ -92,13 +124,13 @@ class _ProductPageState extends State<ProductPage> {
                             padding: EdgeInsets.zero,
                             primary: Colors.white,
                             textStyle: const TextStyle(
-                              fontSize: 17,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           child: Center(
                             child: Text(
-                              '${widget.product.price.toInt()}₽   •   Купить',
+                              '${widget.product.price.toInt()}₽  •  Купить',
                             ),
                           ),
                         )
@@ -112,9 +144,7 @@ class _ProductPageState extends State<ProductPage> {
                               children: [
                                 Text(
                                   "${widget.product.price.toInt() * amount}₽",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium,
+                                  style: Theme.of(context).textTheme.headlineMedium,
                                 ),
                                 Text(
                                   '${widget.product.price.toInt()}₽ x $amount шт',
@@ -138,10 +168,7 @@ class _ProductPageState extends State<ProductPage> {
                                   child: Center(
                                     child: Text(
                                       '$amount шт',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall!
-                                          .copyWith(
+                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                             fontSize: 16,
                                           ),
                                     ),
@@ -176,16 +203,16 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             SizedBox(
-              height: 270,
+              height: 280,
               child: ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 scrollDirection: Axis.horizontal,
-                itemCount: 20,
+                itemCount: similarProducts.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return ProductCard(
-                    product: widget.product,
+                    product: similarProducts[index],
                     width: 130,
                   );
                 },
@@ -208,16 +235,16 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             SizedBox(
-              height: 270,
+              height: 280,
               child: ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 scrollDirection: Axis.horizontal,
-                itemCount: 20,
+                itemCount: similarProducts.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return ProductCard(
-                    product: widget.product,
+                    product: similarProducts[index],
                     width: 130,
                   );
                 },

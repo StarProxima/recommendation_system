@@ -24,10 +24,15 @@ class _ProductCardState extends State<ProductCard> {
       child: Container(
         constraints: BoxConstraints(
           maxWidth: widget.width,
-          maxHeight: widget.width + 104,
+          maxHeight: widget.width + 114,
         ),
-        decoration: const BoxDecoration(
-          boxShadow: [
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColors.divider,
+            width: 1,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+          boxShadow: const [
             BoxShadow(
               color: AppColors.shadow,
               blurRadius: 12.0,
@@ -36,7 +41,7 @@ class _ProductCardState extends State<ProductCard> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Card(
             margin: EdgeInsets.zero,
             elevation: 0,
@@ -71,12 +76,12 @@ class _ProductCardState extends State<ProductCard> {
                     height: 8,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 36,
+                          height: 40,
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -92,17 +97,18 @@ class _ProductCardState extends State<ProductCard> {
                           height: 8,
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 3,
-                          ),
+                          height: 24,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                           decoration: BoxDecoration(
                             color: Theme.of(context).secondaryHeaderColor,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             "${widget.product.price.toInt()} ₽",
-                            style: const TextStyle(color: Colors.white),
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  color: Colors.white,
+                                ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         const SizedBox(
@@ -111,9 +117,6 @@ class _ProductCardState extends State<ProductCard> {
                         Text(
                           widget.product.merchant,
                           style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        const SizedBox(
-                          height: 8,
                         ),
                       ],
                     ),

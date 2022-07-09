@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
               labelMedium: const TextStyle(
                 color: AppColors.headlineText,
                 fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
               ),
               titleMedium: const TextStyle(
                 letterSpacing: 0,
@@ -58,8 +58,8 @@ class MyApp extends StatelessWidget {
               titleSmall: const TextStyle(
                 letterSpacing: 0,
                 color: AppColors.disabledtext,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
               ),
             ),
       ),
