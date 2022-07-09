@@ -8,10 +8,12 @@ class ProductCard extends StatefulWidget {
     Key? key,
     required this.product,
     required this.width,
+    this.buyButton = false,
   }) : super(key: key);
 
   final Product product;
   final double width;
+  final bool buyButton;
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
@@ -76,7 +78,8 @@ class _ProductCardState extends State<ProductCard> {
                     height: 8,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                    padding:
+                        const EdgeInsets.only(left: 12, right: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -98,14 +101,18 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                         Container(
                           height: 24,
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 3),
                           decoration: BoxDecoration(
                             color: Theme.of(context).secondaryHeaderColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             "${widget.product.price.toInt()} ₽",
-                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
                                   color: Colors.white,
                                 ),
                             textAlign: TextAlign.center,
@@ -114,12 +121,17 @@ class _ProductCardState extends State<ProductCard> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Text(
-                          widget.product.merchant,
-                          style: Theme.of(context).textTheme.titleSmall,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        widget.buyButton
+                            ? const BottomProductBuyButton()
+                            : Text(
+                                widget.product.merchant,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                        // const SizedBox(
+                        //   height: 8,
+                        // ),
                       ],
                     ),
                   ),
@@ -130,5 +142,84 @@ class _ProductCardState extends State<ProductCard> {
         ),
       ),
     );
+  }
+}
+
+class BottomProductBuyButton extends StatefulWidget {
+  const BottomProductBuyButton({Key? key}) : super(key: key);
+
+  @override
+  State<BottomProductBuyButton> createState() => _BottomProductBuyButtonState();
+}
+
+class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
+  int amount = 0;
+  @override
+  Widget build(BuildContext context) {
+    return amount == 0
+        ? Container(
+            height: 32,
+            decoration: BoxDecoration(
+              color: AppColors.headlineText,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  amount = 1;
+                });
+              },
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                primary: Colors.white,
+              ),
+              child: const Center(
+                child: Text(
+                  'Купить',
+                ),
+              ),
+            ),
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: 32,
+                width: 32,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      amount--;
+                    });
+                  },
+                  backgroundColor: AppColors.headlineText,
+                  heroTag: null,
+                  child: const Icon(Icons.remove),
+                ),
+              ),
+              Center(
+                child: Text(
+                  '$amount шт',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        fontSize: 14,
+                      ),
+                ),
+              ),
+              SizedBox(
+                height: 32,
+                width: 32,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      amount++;
+                    });
+                  },
+                  backgroundColor: AppColors.headlineText,
+                  heroTag: null,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ],
+          );
   }
 }

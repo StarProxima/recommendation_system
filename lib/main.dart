@@ -33,13 +33,13 @@ class MyApp extends StatelessWidget {
               headlineLarge: const TextStyle(
                 color: AppColors.headlineText,
                 fontSize: 32,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w900,
                 fontFamily: 'Inter',
               ),
               headlineMedium: const TextStyle(
                 color: AppColors.headlineText,
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
                 fontFamily: 'Inter',
               ),
               headlineSmall: const TextStyle(
