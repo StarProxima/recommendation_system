@@ -46,16 +46,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final double itemWidth = (MediaQuery.of(context).size.width - 3 * 16) / 2;
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size(double.infinity, 50),
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, 50),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 10,
               left: 12,
               right: 12,
             ),
-            child: SearchPanel(),
+            child: SearchPanel(
+              onEditingComplete: (query) async {
+                if (query != '') {
+                  recomendedProducts =
+                      await RecommendationRepository.getProducts(query) ?? [];
+                } else {
+                  getRec();
+                }
+
+                setState(() {});
+              },
+            ),
           ),
         ),
       ),

@@ -19,6 +19,7 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
+  double get padd => widget.width < 140 ? 8 : 12;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -79,7 +80,7 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                        EdgeInsets.only(left: padd, right: padd, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -101,8 +102,8 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                         Container(
                           height: 24,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 3),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: padd, vertical: 3),
                           decoration: BoxDecoration(
                             color: Theme.of(context).secondaryHeaderColor,
                             borderRadius: BorderRadius.circular(12),
@@ -118,22 +119,29 @@ class _ProductCardState extends State<ProductCard> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        widget.buyButton
-                            ? const BottomProductBuyButton()
-                            : Text(
-                                widget.product.merchant,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
+
                         // const SizedBox(
                         //   height: 8,
                         // ),
                       ],
                     ),
+                  ),
+                  widget.buyButton
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(horizontal: padd),
+                          child: const BottomProductBuyButton(),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.symmetric(horizontal: padd),
+                          child: Text(
+                            widget.product.merchant,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
+                  const SizedBox(
+                    height: 8,
                   ),
                 ],
               ),
@@ -180,46 +188,48 @@ class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
               ),
             ),
           )
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: 32,
-                width: 32,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    setState(() {
-                      amount--;
-                    });
-                  },
-                  backgroundColor: AppColors.headlineText,
-                  heroTag: null,
-                  child: const Icon(Icons.remove),
+        : Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  height: 32,
+                  width: 32,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        amount--;
+                      });
+                    },
+                    backgroundColor: AppColors.headlineText,
+                    heroTag: null,
+                    child: const Icon(Icons.remove),
+                  ),
                 ),
-              ),
-              Center(
-                child: Text(
-                  '$amount шт',
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontSize: 14,
-                      ),
+                Center(
+                  child: Text(
+                    '$amount шт',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          fontSize: 14,
+                        ),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 32,
-                width: 32,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    setState(() {
-                      amount++;
-                    });
-                  },
-                  backgroundColor: AppColors.headlineText,
-                  heroTag: null,
-                  child: const Icon(Icons.add),
+                SizedBox(
+                  height: 32,
+                  width: 32,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        amount++;
+                      });
+                    },
+                    backgroundColor: AppColors.headlineText,
+                    heroTag: null,
+                    child: const Icon(Icons.add),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
   }
 }

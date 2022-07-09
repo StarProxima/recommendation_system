@@ -2,19 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 
 class SearchPanel extends StatefulWidget {
-  const SearchPanel({Key? key}) : super(key: key);
+  const SearchPanel({Key? key, required this.onEditingComplete})
+      : super(key: key);
 
+  final Function(String query) onEditingComplete;
   @override
   State<SearchPanel> createState() => _SearchPanelState();
 }
 
 class _SearchPanelState extends State<SearchPanel> {
   FocusNode focus = FocusNode();
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
       child: TextField(
+        controller: controller,
+        onEditingComplete: () {
+          widget.onEditingComplete(controller.text);
+        },
         maxLines: 1,
         style: const TextStyle(fontSize: 17),
         textAlignVertical: TextAlignVertical.center,
