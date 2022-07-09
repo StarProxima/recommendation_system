@@ -8,10 +8,12 @@ class ProductCard extends StatefulWidget {
     Key? key,
     required this.product,
     required this.width,
+    this.buyButton = false,
   }) : super(key: key);
 
   final Product product;
   final double width;
+  final bool buyButton;
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
@@ -108,10 +110,12 @@ class _ProductCardState extends State<ProductCard> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Text(
-                          widget.product.merchant,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
+                        widget.buyButton
+                            ? const BottomProductBuyButton()
+                            : Text(
+                                widget.product.merchant,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
                         const SizedBox(
                           height: 8,
                         ),
@@ -125,5 +129,84 @@ class _ProductCardState extends State<ProductCard> {
         ),
       ),
     );
+  }
+}
+
+class BottomProductBuyButton extends StatefulWidget {
+  const BottomProductBuyButton({Key? key}) : super(key: key);
+
+  @override
+  State<BottomProductBuyButton> createState() => _BottomProductBuyButtonState();
+}
+
+class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
+  int amount = 0;
+  @override
+  Widget build(BuildContext context) {
+    return amount == 0
+        ? Container(
+            height: 32,
+            decoration: BoxDecoration(
+              color: AppColors.headlineText,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  amount = 1;
+                });
+              },
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                primary: Colors.white,
+              ),
+              child: const Center(
+                child: Text(
+                  'Купить',
+                ),
+              ),
+            ),
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: 32,
+                width: 32,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      amount--;
+                    });
+                  },
+                  backgroundColor: AppColors.headlineText,
+                  heroTag: null,
+                  child: const Icon(Icons.remove),
+                ),
+              ),
+              Center(
+                child: Text(
+                  '$amount шт',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        fontSize: 14,
+                      ),
+                ),
+              ),
+              SizedBox(
+                height: 32,
+                width: 32,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      amount++;
+                    });
+                  },
+                  backgroundColor: AppColors.headlineText,
+                  heroTag: null,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ],
+          );
   }
 }
