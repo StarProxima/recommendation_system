@@ -117,6 +117,8 @@ class _ProductCardState extends State<ProductCard> {
                         Text(
                           widget.product.merchant,
                           style: Theme.of(context).textTheme.titleSmall,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),

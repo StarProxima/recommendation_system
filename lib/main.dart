@@ -31,17 +31,17 @@ class MyApp extends StatelessWidget {
               ),
               headlineLarge: const TextStyle(
                 color: AppColors.headlineText,
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
+                fontSize: 32,
+                fontWeight: FontWeight.w700,
               ),
               headlineMedium: const TextStyle(
                 color: AppColors.headlineText,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
               ),
               headlineSmall: const TextStyle(
                 color: AppColors.headlineText,
-                fontSize: 14,
+                fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
               labelMedium: const TextStyle(

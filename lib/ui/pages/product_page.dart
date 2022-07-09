@@ -198,7 +198,7 @@ class _ProductPageState extends State<ProductPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Похожие товары: ',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.left,
               ),
             ),
@@ -230,7 +230,7 @@ class _ProductPageState extends State<ProductPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Покупают вместе: ',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.left,
               ),
             ),
