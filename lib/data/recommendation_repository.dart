@@ -28,6 +28,28 @@ abstract class RecommendationRepository {
     return null;
   }
 
+  static Future<List<Product>?> getProductsSpecialForUser() async {
+    var url = Uri(
+      scheme: "http",
+      host: serverUrl,
+      path: "/similar_users",
+      port: 5000,
+      queryParameters: {"user": "2217"},
+    );
+
+    log(url.normalizePath().toString());
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+
+      return jsonResponse.map((e) => Product.fromJson(e)).toList();
+    } else {
+      log('Request failed with status: ${response.statusCode}.');
+    }
+    return null;
+  }
+
   static Future<List<Product>?> getSimilarProducts(Product product) async {
     var url = Uri(
       scheme: "http",

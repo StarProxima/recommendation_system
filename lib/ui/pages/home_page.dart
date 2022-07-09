@@ -25,12 +25,15 @@ class _HomePageState extends State<HomePage> {
   );
 
   List<Product> recomendedProducts = [];
+  List<Product> specialForYouProducts = [];
 
   final TextEditingController controller = TextEditingController();
 
   void getRec() async {
     recomendedProducts =
         await RecommendationRepository.getRecommendations() ?? [];
+    specialForYouProducts =
+        await RecommendationRepository.getProductsSpecialForUser() ?? [];
     if (mounted) setState(() {});
   }
 
@@ -66,7 +69,6 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 );
-
                 setState(() {});
               },
             ),
@@ -133,6 +135,46 @@ class _HomePageState extends State<HomePage> {
                 "Специально для вас",
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
+            ),
+            LiveGrid.options(
+              options: options,
+              padding: const EdgeInsets.only(
+                top: 20,
+                bottom: 40,
+                left: 16,
+                right: 16,
+              ),
+              itemCount: specialForYouProducts.length,
+              primary: false,
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: itemWidth / (itemWidth + 119),
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+              ),
+              itemBuilder: (context, index, animation) {
+                return FadeTransition(
+                  opacity: Tween<double>(
+                    begin: 0,
+                    end: 1,
+                  ).animate(animation),
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, -0.1),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: ProductCard(
+                      width: itemWidth,
+                      product: Product(
+                        name: specialForYouProducts[index].name,
+                        price: specialForYouProducts[index].price,
+                        merchant: specialForYouProducts[index].merchant,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
