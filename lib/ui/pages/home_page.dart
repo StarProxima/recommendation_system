@@ -59,98 +59,100 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final double itemWidth = (MediaQuery.of(context).size.width - 3 * 16) / 2;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Главная'),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: Text(
-                "Рекомендуем",
-                style: Theme.of(context).textTheme.headlineLarge,
+      // appBar: AppBar(
+      //   title: const Text('Главная'),
+      // ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                child: Text(
+                  "Рекомендуем",
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
               ),
-            ),
-            LiveGrid.options(
-              options: options,
-              padding: const EdgeInsets.only(
-                top: 20,
-                bottom: 40,
-                left: 16,
-                right: 16,
-              ),
-              itemCount: recomendedProducts.length,
-              primary: false,
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: itemWidth / (itemWidth + 119),
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-              ),
-              itemBuilder: (context, index, animation) {
-                return FadeTransition(
-                  opacity: Tween<double>(
-                    begin: 0,
-                    end: 1,
-                  ).animate(animation),
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, -0.1),
-                      end: Offset.zero,
+              LiveGrid.options(
+                options: options,
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 40,
+                  left: 16,
+                  right: 16,
+                ),
+                itemCount: recomendedProducts.length,
+                primary: false,
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: itemWidth / (itemWidth + 119),
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index, animation) {
+                  return FadeTransition(
+                    opacity: Tween<double>(
+                      begin: 0,
+                      end: 1,
                     ).animate(animation),
-                    child: ProductCard(
-                      width: itemWidth,
-                      product: Product(
-                        name: recomendedProducts[index].name,
-                        price: recomendedProducts[index].price,
-                        merchant: recomendedProducts[index].merchant,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, -0.1),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: ProductCard(
+                        width: itemWidth,
+                        product: Product(
+                          name: recomendedProducts[index].name,
+                          price: recomendedProducts[index].price,
+                          merchant: recomendedProducts[index].merchant,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "Специально для вас",
-                style: Theme.of(context).textTheme.headlineLarge,
+                  );
+                },
               ),
-            ),
-            // GridView.builder(
-            //   padding: const EdgeInsets.only(
-            //     top: 20,
-            //     bottom: 40,
-            //     left: 16,
-            //     right: 16,
-            //   ),
-            //   itemCount: 20,
-            //   primary: false,
-            //   shrinkWrap: true,
-            //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            //     crossAxisCount: 2,
-            //     childAspectRatio: 0.633,
-            //     mainAxisSpacing: 16,
-            //     crossAxisSpacing: 16,
-            //   ),
-            //   itemBuilder: (context, index) {
-            //     return ProductCard(
-            //       product: Product(
-            //         name:
-            //             'name ${index * index * index * index * index * index * index * index * index}',
-            //         price: 20.0 * index * index,
-            //         merchant: 'Девяточка',
-            //       ),
-            //     );
-            //   },
-            // ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  "Специально для вас",
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+              ),
+              // GridView.builder(
+              //   padding: const EdgeInsets.only(
+              //     top: 20,
+              //     bottom: 40,
+              //     left: 16,
+              //     right: 16,
+              //   ),
+              //   itemCount: 20,
+              //   primary: false,
+              //   shrinkWrap: true,
+              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //     crossAxisCount: 2,
+              //     childAspectRatio: 0.633,
+              //     mainAxisSpacing: 16,
+              //     crossAxisSpacing: 16,
+              //   ),
+              //   itemBuilder: (context, index) {
+              //     return ProductCard(
+              //       product: Product(
+              //         name:
+              //             'name ${index * index * index * index * index * index * index * index * index}',
+              //         price: 20.0 * index * index,
+              //         merchant: 'Девяточка',
+              //       ),
+              //     );
+              //   },
+              // ),
+            ],
+          ),
         ),
       ),
     );

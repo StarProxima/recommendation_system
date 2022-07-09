@@ -228,7 +228,7 @@ class _ProductPageState extends State<ProductPage> {
                               physics: const BouncingScrollPhysics(),
                               padding: const EdgeInsets.all(16),
                               scrollDirection: Axis.horizontal,
-                              itemCount: 20,
+                              itemCount: similarProducts.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return AnimationConfiguration.staggeredList(
@@ -238,7 +238,7 @@ class _ProductPageState extends State<ProductPage> {
                                     verticalOffset: 50,
                                     child: FadeInAnimation(
                                       child: ProductCard(
-                                        product: widget.product,
+                                        product: similarProducts[index],
                                         width: 130,
                                         buyButton: true,
                                       ),
@@ -274,7 +274,7 @@ class _ProductPageState extends State<ProductPage> {
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(16),
                     scrollDirection: Axis.horizontal,
-                    itemCount: 20,
+                    itemCount: similarProducts.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return AnimationConfiguration.staggeredList(
@@ -284,7 +284,7 @@ class _ProductPageState extends State<ProductPage> {
                           verticalOffset: 50,
                           child: FadeInAnimation(
                             child: ProductCard(
-                              product: widget.product,
+                              product: similarProducts[index],
                               buyButton: true,
                               width: 130,
                             ),

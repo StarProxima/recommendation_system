@@ -18,6 +18,18 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColors.primary,
         secondaryHeaderColor: AppColors.headlineText,
         disabledColor: AppColors.disabled,
+        appBarTheme: AppBarTheme.of(context).copyWith(
+          color: Colors.white,
+          iconTheme: const IconThemeData(
+            color: AppColors.headlineText,
+          ),
+          titleTextStyle: const TextStyle(
+            color: AppColors.headlineText,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Inter',
+          ),
+        ),
         iconTheme: const IconThemeData(
           color: AppColors.headlineText,
           opacity: 1,
