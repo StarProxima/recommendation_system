@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
+import 'package:auto_animated/auto_animated.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +11,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final LiveOptions options = const LiveOptions(
+    // Start animation after (default zero)
+    delay: Duration(milliseconds: 0),
+
+    // Show each item through (default 250)
+    showItemInterval: Duration(milliseconds: 35),
+
+    // Animation duration (default 250)
+    showItemDuration: Duration(milliseconds: 200),
+
+    // Animations starts at 0.05 visible
+    // item fraction in sight (default 0.025)
+    visibleFraction: 0.025,
+
+    // Repeat the animation of the appearance
+    // when scrolling in the opposite direction (default false)
+    // To get the effect as in a showcase for ListView, set true
+    reAnimateOnVisibility: false,
+  );
+
   @override
   Widget build(BuildContext context) {
     final double itemWidth = (MediaQuery.of(context).size.width - 3 * 16) / 2;
@@ -31,7 +52,8 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
-            GridView.builder(
+            LiveGrid.options(
+              options: options,
               padding: const EdgeInsets.only(
                 top: 20,
                 bottom: 40,
@@ -47,13 +69,27 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
               ),
-              itemBuilder: (context, index) {
-                return ProductCard(
-                  width: itemWidth,
-                  product: Product(
-                    name: 'name ${index * index * index}',
-                    price: 20.0 * index * index,
-                    merchant: 'ООО "ОВОЩЕБАЗА"',
+              itemBuilder: (context, index, animation) {
+                return FadeTransition(
+                  opacity: Tween<double>(
+                    begin: 0,
+                    end: 1,
+                  ).animate(animation),
+                  // And slide transition
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, -0.1),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    // Paste you Widget
+                    child: ProductCard(
+                      width: itemWidth,
+                      product: Product(
+                        name: 'name ${index * index * index}',
+                        price: 20.0 * index * index,
+                        merchant: 'ООО "ОВОЩЕБАЗА"',
+                      ),
+                    ),
                   ),
                 );
               },
