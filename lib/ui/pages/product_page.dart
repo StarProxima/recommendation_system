@@ -24,12 +24,14 @@ class _ProductPageState extends State<ProductPage> {
 
   bool togetherPurchases = false;
   late List<Product> similarProducts = [];
+  late List<Product> connectedProducts = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loadSimilarProducts();
+    loadConnectedProducts();
   }
 
   Future<void> loadSimilarProducts() async {
@@ -39,8 +41,7 @@ class _ProductPageState extends State<ProductPage> {
         path: "/similar_items",
         port: 5000,
         queryParameters: {
-          "product":
-              "${widget.product.name};${widget.product.price.toInt().toString()};${widget.product.merchant}"
+          "product": "${widget.product.name};${widget.product.price.toInt().toString()};${widget.product.merchant}"
         });
     var response = await http.get(url);
 
@@ -51,6 +52,30 @@ class _ProductPageState extends State<ProductPage> {
         similarProducts.clear();
         for (var product in jsonResponse) {
           similarProducts.add(Product.fromJson(product));
+        }
+      });
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  Future<void> loadConnectedProducts() async {
+    var url = Uri(
+        scheme: "http",
+        host: Platform.isAndroid ? '10.0.2.2' : '127.0.0.1',
+        path: "/connected",
+        port: 5000,
+        queryParameters: {
+          "product": "${widget.product.name};${widget.product.price.toInt().toString()};${widget.product.merchant}"
+        });
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+
+      setState(() {
+        connectedProducts.clear();
+        for (var product in jsonResponse) {
+          connectedProducts.add(Product.fromJson(product));
         }
       });
     } else {
@@ -159,9 +184,7 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Text(
                                     "${widget.product.price.toInt() * amount}₽",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                   Text(
                                     '${widget.product.price.toInt()}₽ x $amount шт',
@@ -185,10 +208,7 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Center(
                                       child: Text(
                                         '$amount шт',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall!
-                                            .copyWith(
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                               fontSize: 16,
                                             ),
                                       ),
@@ -233,7 +253,7 @@ class _ProductPageState extends State<ProductPage> {
                               physics: const BouncingScrollPhysics(),
                               padding: const EdgeInsets.all(16),
                               scrollDirection: Axis.horizontal,
-                              itemCount: similarProducts.length,
+                              itemCount: connectedProducts.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return AnimationConfiguration.staggeredList(
@@ -243,7 +263,7 @@ class _ProductPageState extends State<ProductPage> {
                                     verticalOffset: 50,
                                     child: FadeInAnimation(
                                       child: ProductCard(
-                                        product: similarProducts[index],
+                                        product: connectedProducts[index],
                                         width: 130,
                                         buyButton: true,
                                       ),
@@ -251,8 +271,7 @@ class _ProductPageState extends State<ProductPage> {
                                   ),
                                 );
                               },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
+                              separatorBuilder: (BuildContext context, int index) {
                                 return const SizedBox(
                                   width: 16,
                                 );
