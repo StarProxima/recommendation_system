@@ -26,12 +26,12 @@ class _ProductCardState extends State<ProductCard> {
           maxWidth: widget.width,
           maxHeight: widget.width + 104,
         ),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.25),
-              blurRadius: 10.0,
-              spreadRadius: 2.0,
+              color: AppColors.shadow,
+              blurRadius: 12.0,
+              spreadRadius: 0.0,
             ),
           ],
         ),

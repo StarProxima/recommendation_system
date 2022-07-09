@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'package:auto_animated/auto_animated.dart';
+import 'package:http/http.dart' as http;
+
+import '../../data/product_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,6 +34,32 @@ class _HomePageState extends State<HomePage> {
     // To get the effect as in a showcase for ListView, set true
     reAnimateOnVisibility: false,
   );
+
+  late List<Product> recomendedProducts = [];
+
+  void loadRecomendation() async {
+    var url = Uri(scheme: "http", host: "127.0.0.1", path: "/recomend", port: 5000);
+    print(url.normalizePath());
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+      //var itemCount = jsonResponse['totalItems'];
+      setState(() {
+        recomendedProducts.clear();
+        for (var product in jsonResponse) {
+          recomendedProducts.add(Product.fromJson(product));
+        }
+      });
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadRecomendation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                 left: 16,
                 right: 16,
               ),
-              itemCount: 20,
+              itemCount: recomendedProducts.length,
               primary: false,
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -83,9 +113,9 @@ class _HomePageState extends State<HomePage> {
                     child: ProductCard(
                       width: itemWidth,
                       product: Product(
-                        name: 'name ${index * index * index}',
-                        price: 20.0 * index * index,
-                        merchant: 'ООО "ОВОЩЕБАЗА"',
+                        name: recomendedProducts[index].name,
+                        price: recomendedProducts[index].price,
+                        merchant: recomendedProducts[index].merchant,
                       ),
                     ),
                   ),

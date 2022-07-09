@@ -8,6 +8,7 @@ abstract class AppColors {
   static const disabledtext = Color(0XFF817F8F);
   static const disabled = Color(0XFF817F8F);
   static const background = Color(0xFFF4F4F4);
+  static const shadow = Color(0x40E0E0E0);
 }
 
 abstract class AppImages {

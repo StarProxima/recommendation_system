@@ -7,4 +7,8 @@ class Product {
   final String name;
   final double price;
   final String merchant;
+
+  static Product fromJson(json) {
+    return Product(name: json["name"], price: double.parse(json["cost"].toString()), merchant: json["merchantName"]);
+  }
 }
