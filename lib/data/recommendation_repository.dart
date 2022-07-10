@@ -18,8 +18,6 @@ abstract class RecommendationRepository {
 
     var response = await http.get(url);
 
-    log(response.body);
-
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
@@ -58,10 +56,7 @@ abstract class RecommendationRepository {
       host: serverUrl,
       path: "/similar_items",
       port: 5000,
-      queryParameters: {
-        "product":
-            "${product.name};${product.price.toInt()};${product.merchant}"
-      },
+      queryParameters: {"product": "${product.name};${product.price.toInt()};${product.merchant}"},
     );
     var response = await http.get(url);
 
@@ -80,10 +75,7 @@ abstract class RecommendationRepository {
       host: serverUrl,
       path: "/connected",
       port: 5000,
-      queryParameters: {
-        "product":
-            "${product.name};${product.price.toInt().toString()};${product.merchant}"
-      },
+      queryParameters: {"product": "${product.name};${product.price.toInt().toString()};${product.merchant}"},
     );
     var response = await http.get(url);
     if (response.statusCode == 200) {

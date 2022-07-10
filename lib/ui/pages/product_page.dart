@@ -3,9 +3,12 @@ import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/data/recommendation_repository.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
-
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:recommendation_system/ui/widgets/product_small_card.dart';
+
+import '../widgets/product_simply_card.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);
@@ -93,7 +96,7 @@ class _ProductPageState extends State<ProductPage> {
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(25),
                       color: amount == 0 ? AppColors.headlineText : null,
                     ),
                     height: 50,
@@ -200,7 +203,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 275,
+                          height: 233 + 34,
                           child: AnimationLimiter(
                             child: ListView.separated(
                               physics: const BouncingScrollPhysics(),
@@ -215,9 +218,10 @@ class _ProductPageState extends State<ProductPage> {
                                   child: SlideAnimation(
                                     verticalOffset: 50,
                                     child: FadeInAnimation(
-                                      child: ProductSmallCard(
+                                      child: ProductConnectedCard(
                                         product: connectedProducts[index],
-                                        width: 135,
+                                        width: 132,
+                                        buyButton: true,
                                       ),
                                     ),
                                   ),
@@ -246,7 +250,7 @@ class _ProductPageState extends State<ProductPage> {
               AnimationLimiter(
                 key: ValueKey(similarProducts.length),
                 child: SizedBox(
-                  height: 275,
+                  height: 132 + 74 + 32,
                   child: ListView.separated(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(16),
@@ -260,9 +264,9 @@ class _ProductPageState extends State<ProductPage> {
                         child: SlideAnimation(
                           verticalOffset: 50,
                           child: FadeInAnimation(
-                            child: ProductSmallCard(
+                            child: ProductSimplyCard(
                               product: similarProducts[index],
-                              width: 135,
+                              width: 132,
                             ),
                           ),
                         ),
