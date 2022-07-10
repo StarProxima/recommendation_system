@@ -24,7 +24,7 @@ class _ProductSimplyCardState extends State<ProductSimplyCard> {
       child: Container(
         constraints: BoxConstraints(
           maxWidth: widget.width,
-          maxHeight: widget.width + 74,
+          maxHeight: widget.width + 82,
         ),
         decoration: BoxDecoration(
           border: Border.all(
@@ -90,15 +90,36 @@ class _ProductSimplyCardState extends State<ProductSimplyCard> {
                   ),
                   const SizedBox(height: 8),
                   Container(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    height: 16,
-                    child: Text(
-                      "${widget.product.price.toInt()}₽",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.labelSmall,
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${widget.product.price.toInt()}₽",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            color: AppColors.cashback,
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          height: 24,
+                          child: Text(
+                            "+${(widget.product.price * 0.2).toInt()}₽",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/data/recommendation_repository.dart';
+import 'package:recommendation_system/ui/pages/shop_page.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -25,11 +26,8 @@ class _ProductPageState extends State<ProductPage> {
   List<Product> connectedProducts = [];
 
   void getRecs() async {
-    similarProducts =
-        await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
-    connectedProducts =
-        await RecommendationRepository.getConnectedProducts(widget.product) ??
-            [];
+    similarProducts = await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
+    connectedProducts = await RecommendationRepository.getConnectedProducts(widget.product) ?? [];
     if (mounted) setState(() {});
   }
 
@@ -80,10 +78,15 @@ class _ProductPageState extends State<ProductPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    Text(
-                      widget.product.merchant,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      textAlign: TextAlign.left,
+                    TextButton(
+                      onPressed: () {
+                        openShopPage();
+                      },
+                      child: Text(
+                        widget.product.merchant,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        textAlign: TextAlign.left,
+                      ),
                     ),
                   ],
                 ),
@@ -133,9 +136,7 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Text(
                                     "${widget.product.price.toInt() * amount}₽",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                   Text(
                                     '${widget.product.price.toInt()}₽ x $amount шт',
@@ -160,10 +161,7 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Center(
                                       child: Text(
                                         '$amount шт',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall!
-                                            .copyWith(
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                               fontSize: 16,
                                             ),
                                       ),
@@ -227,8 +225,7 @@ class _ProductPageState extends State<ProductPage> {
                                   ),
                                 );
                               },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
+                              separatorBuilder: (BuildContext context, int index) {
                                 return const SizedBox(
                                   width: 8,
                                 );
@@ -250,7 +247,7 @@ class _ProductPageState extends State<ProductPage> {
               AnimationLimiter(
                 key: ValueKey(similarProducts.length),
                 child: SizedBox(
-                  height: 132 + 74 + 32,
+                  height: 132 + 74 + 40,
                   child: ListView.separated(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(16),
@@ -289,6 +286,18 @@ class _ProductPageState extends State<ProductPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: null,
+    );
+  }
+
+  void openShopPage() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return ShopPage(
+            shopName: widget.product.merchant,
+          );
+        },
+      ),
     );
   }
 }

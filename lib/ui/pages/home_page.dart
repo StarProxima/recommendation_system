@@ -31,10 +31,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController controller = TextEditingController();
 
   void getRec() async {
-    recomendedProducts =
-        await RecommendationRepository.getRecommendations() ?? [];
-    specialForYouProducts =
-        await RecommendationRepository.getProductsSpecialForUser() ?? [];
+    recomendedProducts = await RecommendationRepository.getRecommendations() ?? [];
+    specialForYouProducts = await RecommendationRepository.getProductsSpecialForUser() ?? [];
     if (mounted) setState(() {});
   }
 
@@ -87,7 +85,7 @@ class _HomePageState extends State<HomePage> {
               height: 32,
             ),
             SizedBox(
-              height: 130,
+              height: 162,
               child: BannerViwer(),
             ),
             const SizedBox(

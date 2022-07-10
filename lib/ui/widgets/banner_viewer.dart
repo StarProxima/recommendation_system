@@ -1,41 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:recommendation_system/ui/widgets/stock_banner.dart';
 
 class BannerViwer extends StatelessWidget {
   BannerViwer({Key? key}) : super(key: key);
 
-  final List<Widget> banners = [
-    Container(
-      margin: const EdgeInsets.symmetric(horizontal: 6),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        image: DecorationImage(
-          image: AssetImage('assets/banner1.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    ),
-    Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        image: DecorationImage(
-          image: AssetImage('assets/banner2.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    ),
-    Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        image: DecorationImage(
-          image: AssetImage('assets/banner3.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    ),
+  final List<Widget> banners = const [
+    StockBanner(image: AssetImage('assets/banner1.png')),
+    StockBanner(image: AssetImage('assets/banner2.png')),
+    StockBanner(image: AssetImage('assets/banner3.png')),
   ];
 
   @override
