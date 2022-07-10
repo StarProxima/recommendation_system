@@ -13,6 +13,7 @@ class SearchPage extends StatefulWidget {
   const SearchPage({
     Key? key,
     required this.controller,
+    required this.queryLoad,
     this.hintText,
     this.shop,
   }) : super(key: key);
@@ -20,6 +21,7 @@ class SearchPage extends StatefulWidget {
   final TextEditingController controller;
   final String? shop;
   final String? hintText;
+  final Future<List<Product>?> Function(String query) queryLoad;
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -46,19 +48,11 @@ class _SearchPageState extends State<SearchPage> {
     if (widget.controller.text != lastQuery) {
       if (lastQuery != null) FocusScope.of(context).unfocus();
 
-      searchedProducts =
-          await RecommendationRepository.getProducts(widget.controller.text) ??
-              [];
+      searchedProducts = await widget.queryLoad(widget.controller.text) ?? [];
 
       lastQuery = widget.controller.text;
       if (mounted) setState(() {});
     }
-  }
-
-  Future<void> getRec() async {
-    searchedProducts =
-        await RecommendationRepository.getRecommendations() ?? [];
-    if (mounted) setState(() {});
   }
 
   @override
@@ -83,6 +77,7 @@ class _SearchPageState extends State<SearchPage> {
             child: SearchPanel(
               focus: searchPanelFocus,
               controller: widget.controller,
+              queryLoad: widget.queryLoad,
               backButton: true,
               hintText: widget.hintText,
               onEditingComplete: () async {

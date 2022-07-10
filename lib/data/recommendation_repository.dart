@@ -29,7 +29,9 @@ abstract class RecommendationRepository {
   }
 
   static Future<List<Product>?> getRecommendationsInShop(
-      shopName, userId) async {
+    shopName,
+    userId,
+  ) async {
     var url = Uri(
       scheme: "http",
       host: serverUrl,
@@ -150,6 +152,35 @@ abstract class RecommendationRepository {
         log('Request failed with status: ${response.statusCode}.');
       }
     } catch (e) {}
+    return null;
+  }
+
+  static Future<List<Product>?> getProductsInShop(
+    String query,
+    String shopName,
+  ) async {
+    var url = Uri(
+      scheme: "http",
+      host: serverUrl,
+      path: "/search_merchantProducts",
+      port: 5000,
+      queryParameters: {
+        "name": query,
+        "merchantName": shopName,
+      },
+    );
+
+    log(url.normalizePath().toString());
+
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+
+      return jsonResponse.map((e) => Product.fromJson(e)).toList();
+    } else {
+      log('Request failed with status: ${response.statusCode}.');
+    }
     return null;
   }
 }

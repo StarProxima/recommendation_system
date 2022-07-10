@@ -198,8 +198,11 @@ class _HomePageState extends State<HomePage> {
                   right: 12,
                 ),
                 child: SearchPanel(
-                  focus: searcedFocus,
                   controller: controller,
+                  queryLoad: (query) async {
+                    return await RecommendationRepository.getProducts(query);
+                  },
+                  focus: searcedFocus,
                   pushToSearchPage: true,
                 ),
               ),

@@ -2,12 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
+import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/ui/pages/search_page.dart';
 
 class SearchPanel extends StatefulWidget {
   const SearchPanel({
     Key? key,
     required this.controller,
+    required this.queryLoad,
     required this.focus,
     this.pushToSearchPage = false,
     this.backButton = false,
@@ -16,6 +18,7 @@ class SearchPanel extends StatefulWidget {
   }) : super(key: key);
 
   final TextEditingController controller;
+  final Future<List<Product>?> Function(String query) queryLoad;
   final FocusNode focus;
   final bool pushToSearchPage;
   final bool backButton;
@@ -41,6 +44,7 @@ class _SearchPanelState extends State<SearchPanel> {
       MaterialPageRoute(
         builder: (context) {
           return SearchPage(
+            queryLoad: widget.queryLoad,
             hintText: widget.hintText,
             controller: widget.controller,
           );

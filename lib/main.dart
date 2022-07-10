@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recommendation_system/data/app_styles.dart';
+import 'package:recommendation_system/data/cart_provider.dart';
 import 'package:recommendation_system/ui/pages/home_page.dart';
 
 void main() {

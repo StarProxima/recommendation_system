@@ -40,9 +40,24 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.background,
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: AppColors.background,
+      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: FloatingActionButton(
+          mini: true,
+          backgroundColor: AppColors.background,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Icon(
+            Icons.arrow_back_outlined,
+            color: AppColors.headlineText,
+          ),
+        ),
       ),
       body: ScrollConfiguration(
         behavior: MyBehavior(),
@@ -52,7 +67,7 @@ class _ProductPageState extends State<ProductPage> {
             children: [
               Container(
                 width: width,
-                height: width / 1.25,
+                height: width,
                 padding: const EdgeInsets.all(0),
                 child: Image(
                   image: AppImages.productImage(widget.product.name),
@@ -286,8 +301,6 @@ class _ProductPageState extends State<ProductPage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: null,
     );
   }
 

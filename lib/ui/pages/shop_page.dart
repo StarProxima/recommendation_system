@@ -125,9 +125,15 @@ class _ShopPageState extends State<ShopPage> {
                 ),
                 child: SearchPanel(
                   focus: FocusNode(),
+                  queryLoad: (query) {
+                    return RecommendationRepository.getProductsInShop(
+                      query,
+                      widget.shopName,
+                    );
+                  },
                   controller: controller,
                   backButton: true,
-                  hintText: 'Искать в ${widget.shopName}',
+                  hintText: 'Искать в "${widget.shopName}"',
                   pushToSearchPage: true,
                 ),
               ),
