@@ -16,6 +16,18 @@ abstract class AppColors {
 abstract class AppImages {
   static const cart = AssetImage('assets/cart.png');
 
+  static AssetImage shopImage(String shopName) {
+    switch (shopName) {
+      case "Магнит":
+        return const AssetImage('assets/магнит.png');
+      case "Пятёрочка":
+        return const AssetImage('assets/пятерочка.png');
+      case "STEAM":
+        return const AssetImage('assets/стим.png');
+    }
+    return AppImages.cart;
+  }
+
   static AssetImage productImage(String productName) {
     switch (productName) {
       case "Леденцы":

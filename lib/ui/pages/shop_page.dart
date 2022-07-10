@@ -38,12 +38,19 @@ class _ShopPageState extends State<ShopPage> {
 
   @override
   void initState() {
+    loadShopRecommendation();
     loadShopInformation();
     super.initState();
   }
 
+  loadShopRecommendation() async {
+    recommendedProducts = await RecommendationRepository.getRecommendationsInShop(widget.shopName, 2217) ?? [];
+
+    setState(() {});
+  }
+
   loadShopInformation() async {
-    recommendedProducts = await RecommendationRepository.getRecommendations() ?? [];
+    //recommendedProducts = await RecommendationRepository.getRecommendationsInShop(widget.shopName, 2217) ?? [];
     topProducts = await RecommendationRepository.getRecommendations() ?? [];
     setState(() {});
   }
@@ -114,25 +121,26 @@ class _ShopPageState extends State<ShopPage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
-              child: const Image(
-                image: AppImages.cart,
+              clipBehavior: Clip.antiAlias,
+              child: Image(
+                image: AppImages.shopImage(widget.shopName),
               ),
             ),
             const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "Семерочка",
-                  style: TextStyle(
+                  widget.shopName,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontFamily: "Inter",
                     fontWeight: FontWeight.w900,
                     color: AppColors.headlineText,
                   ),
                 ),
-                SizedBox(height: 4),
-                Text(
+                const SizedBox(height: 4),
+                const Text(
                   "Магазин продуктов и\nчего то еще",
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
