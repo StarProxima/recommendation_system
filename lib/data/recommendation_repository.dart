@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:recommendation_system/data/product_model.dart';
 
 abstract class RecommendationRepository {
-  static String serverUrl = "10.0.2.2";
-  //static String serverUrl = "178.20.41.205";
+  //static String serverUrl = "10.0.2.2";
+  static String serverUrl = "178.20.41.205";
   static bool isDebug = false;
   static Future<List<Product>?> getRecommendations() async {
     var url = Uri(
@@ -172,17 +172,49 @@ abstract class RecommendationRepository {
       },
     );
 
-    if (isDebug) log(url.normalizePath().toString());
+    try {
+      if (isDebug) log(url.normalizePath().toString());
 
-    var response = await http.get(url);
+      var response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
-      return jsonResponse.map((e) => Product.fromJson(e)).toList();
-    } else {
-      log('Request failed with status: ${response.statusCode}.');
-    }
+        return jsonResponse.map((e) => Product.fromJson(e)).toList();
+      } else {
+        log('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {}
+
     return null;
+  }
+
+  static Future<void> postPlayment(
+    String check,
+  ) async {
+    var url = Uri(
+      scheme: "http",
+      host: serverUrl,
+      path: "/makedPurchase",
+      port: 5000,
+      queryParameters: {
+        "user": "2217",
+        "check": check,
+      },
+    );
+
+    try {
+      log(url.normalizePath().toString());
+
+      var response = await http.post(url);
+
+      log(response.body);
+
+      if (response.statusCode == 200) {
+        log("postPlayment");
+      } else {
+        log('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {}
   }
 }
