@@ -62,7 +62,7 @@ class _ProductPageState extends State<ProductPage> {
                 padding: const EdgeInsets.all(0),
                 child: Image(
                   image: AppImages.productImage(widget.product.name),
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.cover,
                 ),
               ),
               Padding(

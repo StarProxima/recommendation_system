@@ -45,12 +45,10 @@ class _ShopPageState extends State<ShopPage> {
 
   loadShopRecommendation() async {
     recommendedProducts = await RecommendationRepository.getRecommendationsInShop(widget.shopName, 2217) ?? [];
-
     setState(() {});
   }
 
   loadShopInformation() async {
-    //recommendedProducts = await RecommendationRepository.getRecommendationsInShop(widget.shopName, 2217) ?? [];
     topProducts = await RecommendationRepository.getRecommendations() ?? [];
     setState(() {});
   }
@@ -160,9 +158,10 @@ class _ShopPageState extends State<ShopPage> {
   Widget get recommendedProductsWidget => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
+          Container(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            constraints: const BoxConstraints(minWidth: double.infinity),
+            child: const Text(
               'Рекомендуемые товары',
               style: TextStyle(
                 fontFamily: "Inter",

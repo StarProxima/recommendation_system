@@ -70,6 +70,12 @@ abstract class AppImages {
         return const AssetImage('assets/апельсины.jpg');
       case "Картофель фри":
         return const AssetImage('assets/картофель_фри.jpg');
+      case "Корм кошачий":
+        return const AssetImage('assets/кошачий_корм.jpg');
+      case "Поилка-фонтан":
+        return const AssetImage('assets/поилка_фонтан.jpg');
+      case "Влажный корм для стерилизованных котов и кошек":
+        return const AssetImage('assets/влажный_корм.jpg');
     }
     return AppImages.cart;
   }
