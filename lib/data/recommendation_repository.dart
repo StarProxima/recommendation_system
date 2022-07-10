@@ -8,15 +8,13 @@ abstract class RecommendationRepository {
   static String serverUrl = "178.20.41.205";
   static String userId = "2217";
   static bool isDebug = false;
+
   static Future<List<Product>?> getRecommendations() async {
     var url = Uri(
       scheme: "http",
       host: serverUrl,
       path: "/recomend",
       port: 5000,
-      queryParameters: {
-        "user": userId,
-      },
     );
 
     try {
@@ -45,7 +43,7 @@ abstract class RecommendationRepository {
       port: 5000,
       queryParameters: {
         "name": shopName,
-        "user": userId,
+        "user": '2217',
       },
     );
 
@@ -69,7 +67,7 @@ abstract class RecommendationRepository {
       host: serverUrl,
       path: "/similar_users",
       port: 5000,
-      queryParameters: {"user": userId},
+      queryParameters: {"user": userId.toString()},
     );
 
     try {
