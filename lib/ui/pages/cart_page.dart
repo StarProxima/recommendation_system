@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/cart_provider.dart';
+
+import 'package:recommendation_system/data/recommendation_repository.dart';
+import 'package:recommendation_system/ui/pages/search_page.dart';
+import 'package:recommendation_system/ui/widgets/banner_viewer.dart';
+import 'package:recommendation_system/ui/widgets/product_card.dart';
+import 'package:auto_animated/auto_animated.dart';
+
+import '../../data/product_model.dart';
+import '../widgets/search_panel.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -11,12 +19,111 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  final LiveOptions options = const LiveOptions(
+    delay: Duration(milliseconds: 0),
+    showItemInterval: Duration(milliseconds: 35),
+    showItemDuration: Duration(milliseconds: 200),
+    visibleFraction: 0.025,
+    reAnimateOnVisibility: false,
+  );
+
+  List<Product> recomendedProducts = [];
+
+  bool isSuccessfulPayment = false;
+
   @override
   Widget build(BuildContext context) {
+    final double itemWidth = (MediaQuery.of(context).size.width - 3 * 16) / 2;
+    var width = MediaQuery.of(context).size.width;
+    recomendedProducts = CartProvider.of(context)!.poducts;
     return Scaffold(
-      body: Center(
-        child: Text(CartProvider.of(context)!.poducts.length.toString()),
-      ),
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: isSuccessfulPayment ? Colors.green : AppColors.headlineText,
+          ),
+          height: 50,
+          width: width - 32,
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                isSuccessfulPayment = true;
+                CartProvider.of(context)!.poducts.clear();
+              });
+            },
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              primary: Colors.white,
+              textStyle: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                isSuccessfulPayment
+                    ? 'Успешно'
+                    : '${CartProvider.of(context)!.sum}₽   •   Купить',
+              ),
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: Text(
+                    "Корзина",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+                LiveGrid.options(
+                  options: options,
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    bottom: 40,
+                    left: 16,
+                    right: 16,
+                  ),
+                  itemCount: recomendedProducts.length,
+                  primary: false,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: itemWidth / (itemWidth + 119),
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                  ),
+                  itemBuilder: (context, index, animation) {
+                    return FadeTransition(
+                      opacity: Tween<double>(
+                        begin: 0,
+                        end: 1,
+                      ).animate(animation),
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, -0.1),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: ProductCard(
+                          width: itemWidth,
+                          product: Product(
+                            name: recomendedProducts[index].name,
+                            price: recomendedProducts[index].price,
+                            merchant: recomendedProducts[index].merchant,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
