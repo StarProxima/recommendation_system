@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
+import 'package:recommendation_system/data/cart_provider.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/ui/pages/product_page.dart';
 
@@ -106,9 +107,11 @@ class _ProductSmallCardState extends State<ProductSmallCard> {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: BottomProductBuyButton(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: BottomProductBuyButton(
+                      product: widget.product,
+                    ),
                   ),
                   const SizedBox(
                     height: 8,
@@ -124,14 +127,19 @@ class _ProductSmallCardState extends State<ProductSmallCard> {
 }
 
 class BottomProductBuyButton extends StatefulWidget {
-  const BottomProductBuyButton({Key? key}) : super(key: key);
+  const BottomProductBuyButton({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
+  final Product product;
   @override
   State<BottomProductBuyButton> createState() => _BottomProductBuyButtonState();
 }
 
 class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
   int amount = 0;
+
   @override
   Widget build(BuildContext context) {
     return amount == 0
@@ -145,6 +153,7 @@ class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
               onPressed: () {
                 setState(() {
                   amount = 1;
+                  CartProvider.of(context)!.add(widget.product);
                 });
               },
               style: TextButton.styleFrom(
@@ -196,6 +205,7 @@ class _BottomProductBuyButtonState extends State<BottomProductBuyButton> {
                     onPressed: () {
                       setState(() {
                         amount++;
+                        CartProvider.of(context)!.add(widget.product);
                       });
                     },
                     backgroundColor: AppColors.headlineText,

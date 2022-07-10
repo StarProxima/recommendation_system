@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
+import 'package:recommendation_system/data/cart_provider.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/data/recommendation_repository.dart';
 import 'package:recommendation_system/ui/pages/shop_page.dart';
@@ -121,6 +122,7 @@ class _ProductPageState extends State<ProductPage> {
                             onPressed: () {
                               setState(() {
                                 amount = 1;
+                                CartProvider.of(context)!.add(widget.product);
                                 togetherPurchases = true;
                               });
                             },
@@ -164,6 +166,8 @@ class _ProductPageState extends State<ProductPage> {
                                     onPressed: () {
                                       setState(() {
                                         amount--;
+                                        CartProvider.of(context)!
+                                            .remove(widget.product);
                                       });
                                     },
                                     backgroundColor: AppColors.headlineText,
@@ -189,6 +193,8 @@ class _ProductPageState extends State<ProductPage> {
                                     onPressed: () {
                                       setState(() {
                                         amount++;
+                                        CartProvider.of(context)!
+                                            .add(widget.product);
                                       });
                                     },
                                     backgroundColor: AppColors.headlineText,

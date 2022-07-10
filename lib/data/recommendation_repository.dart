@@ -6,6 +6,7 @@ import 'package:recommendation_system/data/product_model.dart';
 abstract class RecommendationRepository {
   static String serverUrl = "10.0.2.2";
   //static String serverUrl = "178.20.41.205";
+  static bool isDebug = false;
   static Future<List<Product>?> getRecommendations() async {
     var url = Uri(
       scheme: "http",
@@ -15,7 +16,8 @@ abstract class RecommendationRepository {
     );
 
     try {
-      log(url.normalizePath().toString());
+      if (isDebug) log(url.normalizePath().toString());
+
       var response = await http.get(url);
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body) as List<dynamic>;
@@ -43,7 +45,7 @@ abstract class RecommendationRepository {
       },
     );
 
-    log(url.normalizePath().toString());
+    if (isDebug) log(url.normalizePath().toString());
 
     var response = await http.get(url);
 
@@ -67,7 +69,7 @@ abstract class RecommendationRepository {
     );
 
     try {
-      log(url.normalizePath().toString());
+      if (isDebug) log(url.normalizePath().toString());
       var response = await http.get(url);
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body) as List<dynamic>;
@@ -93,9 +95,9 @@ abstract class RecommendationRepository {
       },
     );
     try {
-      log(url.normalizePath().toString());
+      if (isDebug) log(url.normalizePath().toString());
       var response = await http.get(url);
-      log(response.body);
+      if (isDebug) log(response.body);
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
@@ -119,9 +121,9 @@ abstract class RecommendationRepository {
       },
     );
     try {
-      log(url.normalizePath().toString());
+      if (isDebug) log(url.normalizePath().toString());
       var response = await http.get(url);
-      log(response.body);
+      if (isDebug) log(response.body);
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
@@ -142,7 +144,7 @@ abstract class RecommendationRepository {
       queryParameters: {"search": query},
     );
     try {
-      log(url.normalizePath().toString());
+      if (isDebug) log(url.normalizePath().toString());
       var response = await http.get(url);
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body) as List<dynamic>;
@@ -170,7 +172,7 @@ abstract class RecommendationRepository {
       },
     );
 
-    log(url.normalizePath().toString());
+    if (isDebug) log(url.normalizePath().toString());
 
     var response = await http.get(url);
 
