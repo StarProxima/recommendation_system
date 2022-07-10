@@ -68,14 +68,20 @@ class _StockPageState extends State<StockPage> {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
-        child: const Image(image: AppImages.cart),
+        clipBehavior: Clip.antiAlias,
+        child: const Image(
+          image: AssetImage(
+            "assets/акция.jpg",
+          ),
+          fit: BoxFit.fitHeight,
+        ),
       );
 
   Widget get stockTitle => Container(
         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 0, top: 0),
         constraints: const BoxConstraints(minWidth: double.infinity),
         child: const Text(
-          "Название акции",
+          "Собери все магниты",
           style: TextStyle(
             fontFamily: "Inter",
             fontSize: 24,
@@ -89,7 +95,7 @@ class _StockPageState extends State<StockPage> {
         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 0, top: 0),
         constraints: const BoxConstraints(minWidth: double.infinity),
         child: const Text(
-          "Описание акции",
+          "Собери 8 магнитов и получи пиццу в подарок!",
           style: TextStyle(
             fontFamily: "Inter",
             fontSize: 16,
