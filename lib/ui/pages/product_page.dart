@@ -52,14 +52,17 @@ class _ProductPageState extends State<ProductPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                ),
+                clipBehavior: Clip.antiAlias,
                 width: width,
-                height: width / 1.75,
-                color: Colors.transparent,
+                height: width / 1.5,
                 padding: const EdgeInsets.all(0),
-                child: const Image(
-                  color: AppColors.disabled,
-                  image: AppImages.cart,
-                  fit: BoxFit.contain,
+                child: Image(
+                  image: AppImages.productImage(widget.product.name),
+                  fit: BoxFit.fitWidth,
                 ),
               ),
               Padding(

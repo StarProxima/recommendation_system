@@ -67,9 +67,8 @@ class _ProductSimplyCardState extends State<ProductSimplyCard> {
                   SizedBox(
                     width: widget.width - 2,
                     height: widget.width - 2,
-                    child: const Image(
-                      image: AppImages.cart,
-                      color: AppColors.disabled,
+                    child: Image(
+                      image: AppImages.productImage(widget.product.name),
                       fit: BoxFit.cover,
                     ),
                   ),

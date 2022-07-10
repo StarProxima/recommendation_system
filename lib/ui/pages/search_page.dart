@@ -10,9 +10,14 @@ import '../../data/product_model.dart';
 import '../widgets/search_panel.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, required this.controller}) : super(key: key);
+  const SearchPage({
+    Key? key,
+    required this.controller,
+    this.shop,
+  }) : super(key: key);
 
   final TextEditingController controller;
+  final String? shop;
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -39,9 +44,7 @@ class _SearchPageState extends State<SearchPage> {
     if (widget.controller.text != lastQuery) {
       if (lastQuery != null) FocusScope.of(context).unfocus();
 
-      searchedProducts =
-          await RecommendationRepository.getProducts(widget.controller.text) ??
-              [];
+      searchedProducts = await RecommendationRepository.getProducts(widget.controller.text) ?? [];
 
       lastQuery = widget.controller.text;
       if (mounted) setState(() {});
@@ -49,8 +52,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void getRec() async {
-    searchedProducts =
-        await RecommendationRepository.getRecommendations() ?? [];
+    searchedProducts = await RecommendationRepository.getRecommendations() ?? [];
     if (mounted) setState(() {});
   }
 

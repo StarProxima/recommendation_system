@@ -67,9 +67,8 @@ class _ProductCardState extends State<ProductCard> {
                   SizedBox(
                     width: widget.width,
                     height: widget.width,
-                    child: const Image(
-                      color: AppColors.disabled,
-                      image: AppImages.cart,
+                    child: Image(
+                      image: AppImages.productImage(widget.product.name),
                       fit: BoxFit.cover,
                     ),
                   ),
