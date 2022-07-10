@@ -5,7 +5,7 @@ import 'package:recommendation_system/data/recommendation_repository.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:recommendation_system/ui/widgets/product_connected_card.dart';
+import 'package:recommendation_system/ui/widgets/product_small_card.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);

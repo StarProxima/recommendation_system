@@ -10,7 +10,7 @@ abstract class AppColors {
   static const background = Color(0xFFF4F4F4);
   static const shadow = Color(0x40E0E0E0);
   static const divider = Color(0xFFEBEAF2);
-  static const cashback = Color(0xFFF99A42);
+  static const cashback = Color(0xFFffd700);
 }
 
 abstract class AppImages {

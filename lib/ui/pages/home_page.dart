@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:recommendation_system/data/recommendation_repository.dart';
 import 'package:recommendation_system/ui/pages/search_page.dart';
+import 'package:recommendation_system/ui/widgets/banner_viewer.dart';
 import 'package:recommendation_system/ui/widgets/product_card.dart';
 import 'package:auto_animated/auto_animated.dart';
 
@@ -82,6 +83,16 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(
+              height: 32,
+            ),
+            SizedBox(
+              height: 130,
+              child: BannerViwer(),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: Text(

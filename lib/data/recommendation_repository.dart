@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:recommendation_system/data/product_model.dart';
 
 abstract class RecommendationRepository {
-  static String serverUrl = "10.0.2.2";
-  //static String serverUrl = "178.20.41.205";
+  //static String serverUrl = "10.0.2.2";
+  static String serverUrl = "178.20.41.205";
   static Future<List<Product>?> getRecommendations() async {
     var url = Uri(
       scheme: "http",
