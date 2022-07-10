@@ -25,7 +25,7 @@ class _StockPageState extends State<StockPage> {
 
   void loadStockProducts() async {
     stockProducts = await RecommendationRepository.getRecommendations() ?? [];
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
@@ -101,7 +101,8 @@ class _StockPageState extends State<StockPage> {
   Widget get stockProductsWidget => Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 0, top: 0),
+            margin:
+                const EdgeInsets.only(left: 16, right: 16, bottom: 0, top: 0),
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: const Text(
               "Товары, учавствующие\nв акции",

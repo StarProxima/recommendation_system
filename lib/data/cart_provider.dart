@@ -37,4 +37,15 @@ class CartModel extends ChangeNotifier {
   void remove(Product product) {
     notifyListeners();
   }
+
+  List<Map<String, dynamic>> toJson() {
+    return List.generate(
+      poducts.length,
+      (index) => {
+        'name': poducts[index].name,
+        'cost': poducts[index].price,
+        'merchantName': poducts[index].price,
+      },
+    );
+  }
 }
