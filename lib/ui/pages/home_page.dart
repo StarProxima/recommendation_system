@@ -50,143 +50,162 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final double itemWidth = (MediaQuery.of(context).size.width - 3 * 16) / 2;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 50),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-              left: 12,
-              right: 12,
+      // appBar: PreferredSize(
+      //   preferredSize: const Size(double.infinity, 50),
+      //   child: SafeArea(
+      //     child: Padding(
+      //       padding: const EdgeInsets.only(
+      //         top: 10,
+      //         left: 12,
+      //         right: 12,
+      //       ),
+      //       child: SearchPanel(
+      //         focus: searcedFocus,
+      //         controller: controller,
+      //         pushToSearchPage: true,
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 104),
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
             ),
-            child: SearchPanel(
-              focus: searcedFocus,
-              controller: controller,
-              pushToSearchPage: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: Text(
+                    "Акции",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+                const SizedBox(
+                  height: 162,
+                  child: BannerViwer(),
+                ),
+                const SizedBox(
+                  height: 0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: Text(
+                    "Рекомендуем",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+                LiveGrid.options(
+                  options: options,
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    bottom: 40,
+                    left: 16,
+                    right: 16,
+                  ),
+                  itemCount: recomendedProducts.length,
+                  primary: false,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: itemWidth / (itemWidth + 119),
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                  ),
+                  itemBuilder: (context, index, animation) {
+                    return FadeTransition(
+                      opacity: Tween<double>(
+                        begin: 0,
+                        end: 1,
+                      ).animate(animation),
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, -0.1),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: ProductCard(
+                          width: itemWidth,
+                          product: Product(
+                            name: recomendedProducts[index].name,
+                            price: recomendedProducts[index].price,
+                            merchant: recomendedProducts[index].merchant,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Специально для вас",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+                LiveGrid.options(
+                  options: options,
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    bottom: 40,
+                    left: 16,
+                    right: 16,
+                  ),
+                  itemCount: specialForYouProducts.length,
+                  primary: false,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: itemWidth / (itemWidth + 119),
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                  ),
+                  itemBuilder: (context, index, animation) {
+                    return FadeTransition(
+                      opacity: Tween<double>(
+                        begin: 0,
+                        end: 1,
+                      ).animate(animation),
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, -0.1),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: ProductCard(
+                          width: itemWidth,
+                          product: Product(
+                            name: specialForYouProducts[index].name,
+                            price: specialForYouProducts[index].price,
+                            merchant: specialForYouProducts[index].merchant,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: Text(
-                "Акции",
-                style: Theme.of(context).textTheme.headlineLarge,
+          PreferredSize(
+            preferredSize: const Size(double.infinity, 50),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 12,
+                  right: 12,
+                ),
+                child: SearchPanel(
+                  focus: searcedFocus,
+                  controller: controller,
+                  pushToSearchPage: true,
+                ),
               ),
             ),
-            SizedBox(
-              height: 162,
-              child: BannerViwer(),
-            ),
-            const SizedBox(
-              height: 0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: Text(
-                "Рекомендуем",
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-            ),
-            LiveGrid.options(
-              options: options,
-              padding: const EdgeInsets.only(
-                top: 20,
-                bottom: 40,
-                left: 16,
-                right: 16,
-              ),
-              itemCount: recomendedProducts.length,
-              primary: false,
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: itemWidth / (itemWidth + 119),
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-              ),
-              itemBuilder: (context, index, animation) {
-                return FadeTransition(
-                  opacity: Tween<double>(
-                    begin: 0,
-                    end: 1,
-                  ).animate(animation),
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, -0.1),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: ProductCard(
-                      width: itemWidth,
-                      product: Product(
-                        name: recomendedProducts[index].name,
-                        price: recomendedProducts[index].price,
-                        merchant: recomendedProducts[index].merchant,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "Специально для вас",
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-            ),
-            LiveGrid.options(
-              options: options,
-              padding: const EdgeInsets.only(
-                top: 20,
-                bottom: 40,
-                left: 16,
-                right: 16,
-              ),
-              itemCount: specialForYouProducts.length,
-              primary: false,
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: itemWidth / (itemWidth + 119),
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-              ),
-              itemBuilder: (context, index, animation) {
-                return FadeTransition(
-                  opacity: Tween<double>(
-                    begin: 0,
-                    end: 1,
-                  ).animate(animation),
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, -0.1),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: ProductCard(
-                      width: itemWidth,
-                      product: Product(
-                        name: specialForYouProducts[index].name,
-                        price: specialForYouProducts[index].price,
-                        merchant: specialForYouProducts[index].merchant,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

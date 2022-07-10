@@ -77,41 +77,63 @@ class _ShopPageState extends State<ShopPage> {
       //     )
       //   ],
       // ),
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 50),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-              left: 12,
-              right: 12,
-            ),
-            child: SearchPanel(
-              focus: FocusNode(),
-              controller: controller,
-              backButton: true,
-              hintText: 'Искать в ${widget.shopName}',
-              pushToSearchPage: true,
+      // appBar: PreferredSize(
+      //   preferredSize: const Size(double.infinity, 50),
+      //   child: SafeArea(
+      //     child: Padding(
+      //       padding: const EdgeInsets.only(
+      //         top: 10,
+      //         left: 12,
+      //         right: 12,
+      //       ),
+      //       child: SearchPanel(
+      //         focus: FocusNode(),
+      //         controller: controller,
+      //         backButton: true,
+      //         hintText: 'Искать в ${widget.shopName}',
+      //         pushToSearchPage: true,
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.only(top: 104),
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 24,
+                ),
+                shopCard,
+                shopStocks,
+                const SizedBox(height: 24),
+                recommendedProductsWidget,
+                topProductsWidget,
+              ],
             ),
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 24,
+          PreferredSize(
+            preferredSize: const Size(double.infinity, 50),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 12,
+                  right: 12,
+                ),
+                child: SearchPanel(
+                  focus: FocusNode(),
+                  controller: controller,
+                  backButton: true,
+                  hintText: 'Искать в ${widget.shopName}',
+                  pushToSearchPage: true,
+                ),
+              ),
             ),
-            shopCard,
-            shopStocks,
-            const SizedBox(height: 24),
-            recommendedProductsWidget,
-            topProductsWidget,
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
