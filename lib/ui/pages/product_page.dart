@@ -23,8 +23,11 @@ class _ProductPageState extends State<ProductPage> {
   List<Product> connectedProducts = [];
 
   Future<void> getRecs() async {
-    similarProducts = await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
-    connectedProducts = await RecommendationRepository.getConnectedProducts(widget.product) ?? [];
+    similarProducts =
+        await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
+    connectedProducts =
+        await RecommendationRepository.getConnectedProducts(widget.product) ??
+            [];
     if (mounted) setState(() {});
   }
 
@@ -68,7 +71,7 @@ class _ProductPageState extends State<ProductPage> {
                 height: width,
                 padding: const EdgeInsets.all(0),
                 child: Image(
-                  image: AppImages.productImage(widget.product.name),
+                  image: AppImages.productImage(widget.product),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -155,7 +158,9 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Text(
                                     "${widget.product.price.toInt() * amount}₽",
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   ),
                                   Text(
                                     '${widget.product.price.toInt()}₽ x $amount шт',
@@ -169,7 +174,8 @@ class _ProductPageState extends State<ProductPage> {
                                     onPressed: () {
                                       setState(() {
                                         amount--;
-                                        CartProvider.of(context)!.remove(widget.product);
+                                        CartProvider.of(context)!
+                                            .remove(widget.product);
                                       });
                                     },
                                     backgroundColor: AppColors.headlineText,
@@ -181,7 +187,10 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Center(
                                       child: Text(
                                         '$amount шт',
-                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(
                                               fontSize: 16,
                                             ),
                                       ),
@@ -192,7 +201,8 @@ class _ProductPageState extends State<ProductPage> {
                                     onPressed: () {
                                       setState(() {
                                         amount++;
-                                        CartProvider.of(context)!.add(widget.product);
+                                        CartProvider.of(context)!
+                                            .add(widget.product);
                                       });
                                     },
                                     backgroundColor: AppColors.headlineText,
@@ -245,7 +255,8 @@ class _ProductPageState extends State<ProductPage> {
                                   ),
                                 );
                               },
-                              separatorBuilder: (BuildContext context, int index) {
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
                                 return const SizedBox(
                                   width: 8,
                                 );

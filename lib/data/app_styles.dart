@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:recommendation_system/data/product_model.dart';
 
 abstract class AppColors {
   static const primary = Color(0xFFED0148);
@@ -28,8 +29,8 @@ abstract class AppImages {
     return AppImages.cart;
   }
 
-  static AssetImage productImage(String productName) {
-    switch (productName) {
+  static AssetImage productImage(Product product) {
+    switch (product.name) {
       case "Леденцы":
         return const AssetImage('assets/ledenci.jpg');
       case "Лимон":
@@ -72,10 +73,26 @@ abstract class AppImages {
         return const AssetImage('assets/картофель_фри.jpg');
       case "Корм кошачий":
         return const AssetImage('assets/кошачий_корм.jpg');
+      case "Кормушка для переноски":
+        return const AssetImage('assets/кормушкадляпереноски.jpg');
       case "Поилка-фонтан":
         return const AssetImage('assets/поилка_фонтан.jpg');
       case "Влажный корм для стерилизованных котов и кошек":
         return const AssetImage('assets/влажный_корм.jpg');
+      case "Стул":
+        return const AssetImage('assets/стул.jpg');
+      case "Стул для геймеров":
+        return const AssetImage('assets/стулдлягеймеров.webp');
+      case "Рабочий стул":
+        if (product.price < 3000) {
+          return const AssetImage('assets/рабочийстул1.jpg');
+        } else {
+          return const AssetImage('assets/рабочийстул2.jpg');
+        }
+      case "Верёвка":
+        return const AssetImage('assets/верёвка.jpg');
+      case "Мыло":
+        return const AssetImage('assets/мыло.jpg');
     }
     return AppImages.cart;
   }

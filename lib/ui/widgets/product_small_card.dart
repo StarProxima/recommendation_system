@@ -70,7 +70,7 @@ class _ProductSmallCardState extends State<ProductSmallCard> {
                     width: widget.width,
                     height: widget.width,
                     child: Image(
-                      image: AppImages.productImage(widget.product.name),
+                      image: AppImages.productImage(widget.product),
                       fit: BoxFit.cover,
                     ),
                   ),
