@@ -100,14 +100,6 @@ class _ProductPageState extends State<ProductPage> {
                         style: Theme.of(context).textTheme.headlineSmall,
                         textAlign: TextAlign.left,
                       ),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        primary: Colors.white,
-                        textStyle: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
                     ),
                   ],
                 ),
