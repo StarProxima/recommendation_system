@@ -28,11 +28,15 @@ class _HomePageState extends State<HomePage> {
   List<Product> recomendedProducts = [];
   List<Product> specialForYouProducts = [];
 
+  FocusNode searcedFocus = FocusNode();
+
   final TextEditingController controller = TextEditingController();
 
   void getRec() async {
-    recomendedProducts = await RecommendationRepository.getRecommendations() ?? [];
-    specialForYouProducts = await RecommendationRepository.getProductsSpecialForUser() ?? [];
+    recomendedProducts =
+        await RecommendationRepository.getRecommendations() ?? [];
+    specialForYouProducts =
+        await RecommendationRepository.getProductsSpecialForUser() ?? [];
     if (mounted) setState(() {});
   }
 
@@ -56,20 +60,9 @@ class _HomePageState extends State<HomePage> {
               right: 12,
             ),
             child: SearchPanel(
-              focus: FocusNode(),
+              focus: searcedFocus,
               controller: controller,
-              onEditingComplete: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SearchPage(
-                        controller: controller,
-                      );
-                    },
-                  ),
-                );
-                setState(() {});
-              },
+              pushToSearchPage: true,
             ),
           ),
         ),

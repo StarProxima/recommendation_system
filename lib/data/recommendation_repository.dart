@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:recommendation_system/data/product_model.dart';
 
 abstract class RecommendationRepository {
-  //static String serverUrl = "10.0.2.2";
-  static String serverUrl = "178.20.41.205";
+  static String serverUrl = "10.0.2.2";
+  //static String serverUrl = "178.20.41.205";
   static Future<List<Product>?> getRecommendations() async {
     var url = Uri(
       scheme: "http",
@@ -14,19 +14,17 @@ abstract class RecommendationRepository {
       port: 5000,
     );
 
-    log(url.normalizePath().toString());
+    try {
+      log(url.normalizePath().toString());
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
-    var response = await http.get(url);
-
-    log(response.body);
-
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-
-      return jsonResponse.map((e) => Product.fromJson(e)).toList();
-    } else {
-      log('Request failed with status: ${response.statusCode}.');
-    }
+        return jsonResponse.map((e) => Product.fromJson(e)).toList();
+      } else {
+        log('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {}
     return null;
   }
 
@@ -66,16 +64,18 @@ abstract class RecommendationRepository {
       queryParameters: {"user": "2217"},
     );
 
-    log(url.normalizePath().toString());
-    var response = await http.get(url);
+    try {
+      log(url.normalizePath().toString());
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+        return jsonResponse.map((e) => Product.fromJson(e)).toList();
+      } else {
+        log('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {}
 
-      return jsonResponse.map((e) => Product.fromJson(e)).toList();
-    } else {
-      log('Request failed with status: ${response.statusCode}.');
-    }
     return null;
   }
 
@@ -87,17 +87,21 @@ abstract class RecommendationRepository {
       port: 5000,
       queryParameters: {
         "product":
-            "${product.name};${product.price.toInt()};${product.merchant}"
+            "${product.name};${product.price.toInt().toString()};${product.merchant}"
       },
     );
-    var response = await http.get(url);
+    try {
+      log(url.normalizePath().toString());
+      var response = await http.get(url);
+      log(response.body);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-      return jsonResponse.map((e) => Product.fromJson(e)).toList();
-    } else {
-      log('Request failed with status: ${response.statusCode}.');
-    }
+        return jsonResponse.map((e) => Product.fromJson(e)).toList();
+      } else {
+        log('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {}
     return null;
   }
 
@@ -112,13 +116,18 @@ abstract class RecommendationRepository {
             "${product.name};${product.price.toInt().toString()};${product.merchant}"
       },
     );
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-      return jsonResponse.map((e) => Product.fromJson(e)).toList();
-    } else {
-      log('Request failed with status: ${response.statusCode}.');
-    }
+    try {
+      log(url.normalizePath().toString());
+      var response = await http.get(url);
+      log(response.body);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+
+        return jsonResponse.map((e) => Product.fromJson(e)).toList();
+      } else {
+        log('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {}
     return null;
   }
 
@@ -130,14 +139,17 @@ abstract class RecommendationRepository {
       port: 5000,
       queryParameters: {"search": query},
     );
-    var response = await http.get(url);
-    log(response.body);
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-      return jsonResponse.map((e) => Product.fromJson(e)).toList();
-    } else {
-      log('Request failed with status: ${response.statusCode}.');
-    }
+    try {
+      log(url.normalizePath().toString());
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+
+        return jsonResponse.map((e) => Product.fromJson(e)).toList();
+      } else {
+        log('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {}
     return null;
   }
 }

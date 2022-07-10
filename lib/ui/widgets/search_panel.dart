@@ -2,20 +2,25 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/app_styles.dart';
+import 'package:recommendation_system/ui/pages/search_page.dart';
 
 class SearchPanel extends StatefulWidget {
   const SearchPanel({
     Key? key,
-    required this.onEditingComplete,
     required this.controller,
     required this.focus,
+    this.pushToSearchPage = false,
     this.backButton = false,
+    this.onEditingComplete,
+    this.hintText,
   }) : super(key: key);
 
-  final VoidCallback onEditingComplete;
   final TextEditingController controller;
   final FocusNode focus;
+  final bool pushToSearchPage;
   final bool backButton;
+  final String? hintText;
+  final VoidCallback? onEditingComplete;
   @override
   State<SearchPanel> createState() => _SearchPanelState();
 }
@@ -31,20 +36,38 @@ class _SearchPanelState extends State<SearchPanel> {
     super.initState();
   }
 
+  void pushToSearchPage() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return SearchPage(
+            hintText: widget.hintText,
+            controller: widget.controller,
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
       child: TextField(
         controller: widget.controller,
+        onTap: () {
+          setState(() {});
+        },
         onEditingComplete: () {
-          widget.focus.unfocus();
-          FocusScope.of(context).requestFocus(widget.focus);
-          widget.onEditingComplete();
+          setState(() {});
+          if (widget.pushToSearchPage) pushToSearchPage();
+          widget.onEditingComplete?.call();
         },
         textInputAction: TextInputAction.done,
         maxLines: 1,
-        style: const TextStyle(fontSize: 17),
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: AppColors.headlineText,
+            ),
         textAlignVertical: TextAlignVertical.center,
         focusNode: widget.focus,
         textAlign: TextAlign.left,
@@ -55,11 +78,13 @@ class _SearchPanelState extends State<SearchPanel> {
           isDense: false,
           filled: true,
           fillColor: AppColors.divider,
-          hintText: 'Искать',
+          hintText: widget.hintText ?? 'Искать',
           hintStyle: Theme.of(context).textTheme.titleMedium,
           prefixIcon: widget.backButton
               ? IconButton(
                   onPressed: () {
+                    widget.focus.unfocus();
+                    widget.controller.clear();
                     Navigator.of(context).pop();
                   },
                   icon: Icon(
@@ -78,7 +103,6 @@ class _SearchPanelState extends State<SearchPanel> {
                     widget.focus.unfocus();
                     if (widget.controller.text.isNotEmpty) {
                       widget.controller.clear();
-                      widget.onEditingComplete();
                     }
                   },
                 )

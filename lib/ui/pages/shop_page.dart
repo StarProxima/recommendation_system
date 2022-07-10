@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/recommendation_repository.dart';
+import 'package:recommendation_system/ui/pages/search_page.dart';
 import 'package:recommendation_system/ui/widgets/product_small_card.dart';
+import 'package:recommendation_system/ui/widgets/search_panel.dart';
 
 import '../../data/app_styles.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -45,37 +47,64 @@ class _ShopPageState extends State<ShopPage> {
   loadShopRecommendation() async {
     recommendedProducts =
         await RecommendationRepository.getRecommendationsInShop(
-                widget.shopName, 2217) ??
+              widget.shopName,
+              2217,
+            ) ??
             [];
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   loadShopInformation() async {
     topProducts = await RecommendationRepository.getRecommendations() ?? [];
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     itemWidth = (MediaQuery.of(context).size.width - 3 * 16) / 2;
-
+    final TextEditingController controller = TextEditingController();
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.background,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              color: AppColors.headlineText,
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: AppColors.background,
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: const Icon(
+      //         Icons.search,
+      //         color: AppColors.headlineText,
+      //       ),
+      //     )
+      //   ],
+      // ),
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, 50),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
+              left: 12,
+              right: 12,
             ),
-          )
-        ],
+            child: SearchPanel(
+              focus: FocusNode(),
+              controller: controller,
+              backButton: true,
+              hintText: 'Искать в ${widget.shopName}',
+              pushToSearchPage: true,
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
         child: Column(
           children: [
+            const SizedBox(
+              height: 24,
+            ),
             shopCard,
             shopStocks,
             const SizedBox(height: 24),
@@ -89,8 +118,8 @@ class _ShopPageState extends State<ShopPage> {
 
   Widget get shopStocks => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
+        children: const [
+          Padding(
             padding: EdgeInsets.only(left: 16, right: 16, top: 32, bottom: 0),
             child: Text(
               "Акции магазина",
@@ -208,66 +237,61 @@ class _ShopPageState extends State<ShopPage> {
         ],
       );
 
-  Widget get topProductsWidget => SingleChildScrollView(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: Text(
-                "Популярные товары",
-                style: TextStyle(
-                  fontFamily: "Inter",
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.headlineText,
-                ),
+  Widget get topProductsWidget => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+            child: Text(
+              "Популярные товары",
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: AppColors.headlineText,
               ),
             ),
-            LiveGrid.options(
-              options: options,
-              padding: const EdgeInsets.only(
-                top: 20,
-                bottom: 40,
-                left: 16,
-                right: 16,
-              ),
-              itemCount: topProducts.length,
-              primary: false,
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: itemWidth / (itemWidth + 119),
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-              ),
-              itemBuilder: (context, index, animation) {
-                return FadeTransition(
-                  opacity: Tween<double>(
-                    begin: 0,
-                    end: 1,
+          ),
+          LiveGrid.options(
+            options: options,
+            padding: const EdgeInsets.only(
+              top: 20,
+              bottom: 40,
+              left: 16,
+              right: 16,
+            ),
+            itemCount: topProducts.length,
+            primary: false,
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: itemWidth / (itemWidth + 119),
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+            ),
+            itemBuilder: (context, index, animation) {
+              return FadeTransition(
+                opacity: Tween<double>(
+                  begin: 0,
+                  end: 1,
+                ).animate(animation),
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, -0.1),
+                    end: Offset.zero,
                   ).animate(animation),
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, -0.1),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: ProductCard(
-                      width: itemWidth,
-                      product: Product(
-                        name: topProducts[index].name,
-                        price: topProducts[index].price,
-                        merchant: topProducts[index].merchant,
-                      ),
+                  child: ProductCard(
+                    width: itemWidth,
+                    product: Product(
+                      name: topProducts[index].name,
+                      price: topProducts[index].price,
+                      merchant: topProducts[index].merchant,
                     ),
                   ),
-                );
-              },
-            ),
-          ],
-        ),
+                ),
+              );
+            },
+          ),
+        ],
       );
 }

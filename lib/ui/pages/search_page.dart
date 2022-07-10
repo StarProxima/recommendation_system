@@ -13,11 +13,13 @@ class SearchPage extends StatefulWidget {
   const SearchPage({
     Key? key,
     required this.controller,
+    this.hintText,
     this.shop,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String? shop;
+  final String? hintText;
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -82,6 +84,7 @@ class _SearchPageState extends State<SearchPage> {
               focus: searchPanelFocus,
               controller: widget.controller,
               backButton: true,
+              hintText: widget.hintText,
               onEditingComplete: () async {
                 log('onEditingComplete');
                 getSearchProducts();
