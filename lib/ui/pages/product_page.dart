@@ -3,13 +3,9 @@ import 'package:recommendation_system/data/app_styles.dart';
 import 'package:recommendation_system/data/product_model.dart';
 import 'package:recommendation_system/data/recommendation_repository.dart';
 import 'package:recommendation_system/ui/pages/shop_page.dart';
-import 'package:recommendation_system/ui/widgets/product_card.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:recommendation_system/ui/widgets/product_small_card.dart';
-
-import '../widgets/product_simply_card.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);
@@ -25,9 +21,12 @@ class _ProductPageState extends State<ProductPage> {
   List<Product> similarProducts = [];
   List<Product> connectedProducts = [];
 
-  void getRecs() async {
-    similarProducts = await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
-    connectedProducts = await RecommendationRepository.getConnectedProducts(widget.product) ?? [];
+  Future<void> getRecs() async {
+    similarProducts =
+        await RecommendationRepository.getSimilarProducts(widget.product) ?? [];
+    connectedProducts =
+        await RecommendationRepository.getConnectedProducts(widget.product) ??
+            [];
     if (mounted) setState(() {});
   }
 
@@ -52,13 +51,8 @@ class _ProductPageState extends State<ProductPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                decoration: const BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                ),
-                clipBehavior: Clip.antiAlias,
                 width: width,
-                height: width / 1.5,
+                height: width / 1.25,
                 padding: const EdgeInsets.all(0),
                 child: Image(
                   image: AppImages.productImage(widget.product.name),
@@ -102,7 +96,7 @@ class _ProductPageState extends State<ProductPage> {
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(8),
                       color: amount == 0 ? AppColors.headlineText : null,
                     ),
                     height: 50,
@@ -139,7 +133,9 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Text(
                                     "${widget.product.price.toInt() * amount}₽",
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   ),
                                   Text(
                                     '${widget.product.price.toInt()}₽ x $amount шт',
@@ -164,7 +160,10 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Center(
                                       child: Text(
                                         '$amount шт',
-                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(
                                               fontSize: 16,
                                             ),
                                       ),
@@ -204,7 +203,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 233 + 34,
+                          height: 275,
                           child: AnimationLimiter(
                             child: ListView.separated(
                               physics: const BouncingScrollPhysics(),
@@ -219,16 +218,16 @@ class _ProductPageState extends State<ProductPage> {
                                   child: SlideAnimation(
                                     verticalOffset: 50,
                                     child: FadeInAnimation(
-                                      child: ProductConnectedCard(
+                                      child: ProductSmallCard(
                                         product: connectedProducts[index],
-                                        width: 132,
-                                        buyButton: true,
+                                        width: 135,
                                       ),
                                     ),
                                   ),
                                 );
                               },
-                              separatorBuilder: (BuildContext context, int index) {
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
                                 return const SizedBox(
                                   width: 8,
                                 );
@@ -250,7 +249,7 @@ class _ProductPageState extends State<ProductPage> {
               AnimationLimiter(
                 key: ValueKey(similarProducts.length),
                 child: SizedBox(
-                  height: 132 + 74 + 40,
+                  height: 275,
                   child: ListView.separated(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(16),
@@ -264,9 +263,9 @@ class _ProductPageState extends State<ProductPage> {
                         child: SlideAnimation(
                           verticalOffset: 50,
                           child: FadeInAnimation(
-                            child: ProductSimplyCard(
+                            child: ProductSmallCard(
                               product: similarProducts[index],
-                              width: 132,
+                              width: 135,
                             ),
                           ),
                         ),

@@ -10,7 +10,13 @@ class StockBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        openStockPage(context);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return StockPage();
+            },
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
@@ -27,16 +33,6 @@ class StockBanner extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-      ),
-    );
-  }
-
-  void openStockPage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return StockPage();
-        },
       ),
     );
   }

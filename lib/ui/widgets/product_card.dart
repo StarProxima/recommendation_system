@@ -76,7 +76,8 @@ class _ProductCardState extends State<ProductCard> {
                     height: 8,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                    padding:
+                        const EdgeInsets.only(left: 12, right: 12, bottom: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -102,25 +103,33 @@ class _ProductCardState extends State<ProductCard> {
                             children: [
                               Text(
                                 "${widget.product.price.toInt()}₽",
-                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
                                       fontSize: 16,
                                     ),
                                 textAlign: TextAlign.left,
                               ),
                               const Spacer(),
                               Container(
-                                padding: const EdgeInsets.only(left: 8, right: 8),
+                                padding:
+                                    const EdgeInsets.only(left: 8, right: 8),
                                 alignment: Alignment.center,
                                 decoration: const BoxDecoration(
                                   color: AppColors.cashback,
-                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
                                 ),
                                 height: 24,
                                 child: Text(
                                   "+${(widget.product.price * 0.2).toInt()}₽",
-                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 12,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                        color: AppColors.headlineText,
+                                        fontSize: 16,
                                       ),
                                 ),
                               )
@@ -134,9 +143,10 @@ class _ProductCardState extends State<ProductCard> {
                           widget.product.merchant,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                                fontSize: 14,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelSmall!.copyWith(
+                                    fontSize: 14,
+                                  ),
                         ),
                       ],
                     ),

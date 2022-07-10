@@ -44,15 +44,18 @@ class _SearchPageState extends State<SearchPage> {
     if (widget.controller.text != lastQuery) {
       if (lastQuery != null) FocusScope.of(context).unfocus();
 
-      searchedProducts = await RecommendationRepository.getProducts(widget.controller.text) ?? [];
+      searchedProducts =
+          await RecommendationRepository.getProducts(widget.controller.text) ??
+              [];
 
       lastQuery = widget.controller.text;
       if (mounted) setState(() {});
     }
   }
 
-  void getRec() async {
-    searchedProducts = await RecommendationRepository.getRecommendations() ?? [];
+  Future<void> getRec() async {
+    searchedProducts =
+        await RecommendationRepository.getRecommendations() ?? [];
     if (mounted) setState(() {});
   }
 

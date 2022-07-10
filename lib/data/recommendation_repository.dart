@@ -18,6 +18,8 @@ abstract class RecommendationRepository {
 
     var response = await http.get(url);
 
+    log(response.body);
+
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as List<dynamic>;
 
@@ -28,11 +30,18 @@ abstract class RecommendationRepository {
     return null;
   }
 
-  static Future<List<Product>?> getRecommendationsInShop(shopName, userId) async {
-    var url = Uri(scheme: "http", host: serverUrl, path: "/merchant", port: 5000, queryParameters: {
-      "name": shopName,
-      "user": userId.toString(),
-    });
+  static Future<List<Product>?> getRecommendationsInShop(
+      shopName, userId) async {
+    var url = Uri(
+      scheme: "http",
+      host: serverUrl,
+      path: "/merchant",
+      port: 5000,
+      queryParameters: {
+        "name": shopName,
+        "user": userId.toString(),
+      },
+    );
 
     log(url.normalizePath().toString());
 
@@ -76,7 +85,10 @@ abstract class RecommendationRepository {
       host: serverUrl,
       path: "/similar_items",
       port: 5000,
-      queryParameters: {"product": "${product.name};${product.price.toInt()};${product.merchant}"},
+      queryParameters: {
+        "product":
+            "${product.name};${product.price.toInt()};${product.merchant}"
+      },
     );
     var response = await http.get(url);
 
@@ -95,7 +107,10 @@ abstract class RecommendationRepository {
       host: serverUrl,
       path: "/connected",
       port: 5000,
-      queryParameters: {"product": "${product.name};${product.price.toInt().toString()};${product.merchant}"},
+      queryParameters: {
+        "product":
+            "${product.name};${product.price.toInt().toString()};${product.merchant}"
+      },
     );
     var response = await http.get(url);
     if (response.statusCode == 200) {

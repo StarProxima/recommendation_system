@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
               labelSmall: const TextStyle(
                 letterSpacing: 0,
                 color: AppColors.disabledtext,
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Inter',
               ),

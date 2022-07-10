@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recommendation_system/data/recommendation_repository.dart';
-import 'package:recommendation_system/ui/widgets/product_simply_card.dart';
 import 'package:recommendation_system/ui/widgets/product_small_card.dart';
 
 import '../../data/app_styles.dart';
@@ -44,7 +43,10 @@ class _ShopPageState extends State<ShopPage> {
   }
 
   loadShopRecommendation() async {
-    recommendedProducts = await RecommendationRepository.getRecommendationsInShop(widget.shopName, 2217) ?? [];
+    recommendedProducts =
+        await RecommendationRepository.getRecommendationsInShop(
+                widget.shopName, 2217) ??
+            [];
     setState(() {});
   }
 
@@ -172,7 +174,7 @@ class _ShopPageState extends State<ShopPage> {
             ),
           ),
           SizedBox(
-            height: 132 + 74 + 40,
+            height: 275,
             child: AnimationLimiter(
               child: ListView.separated(
                 physics: const BouncingScrollPhysics(),
@@ -187,9 +189,9 @@ class _ShopPageState extends State<ShopPage> {
                     child: SlideAnimation(
                       verticalOffset: 50,
                       child: FadeInAnimation(
-                        child: ProductSimplyCard(
+                        child: ProductSmallCard(
                           product: recommendedProducts[index],
-                          width: 132,
+                          width: 135,
                         ),
                       ),
                     ),
