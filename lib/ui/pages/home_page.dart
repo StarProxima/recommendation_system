@@ -82,14 +82,21 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 32,
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+              child: Text(
+                "Акции",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ),
             SizedBox(
               height: 162,
               child: BannerViwer(),
             ),
             const SizedBox(
-              height: 16,
+              height: 0,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
